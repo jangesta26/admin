@@ -1,0 +1,43 @@
+/* Define fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Define fade-out animation */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* Apply fade-in animation to the alert */
+.alertError {
+  opacity: 1;
+  transition: opacity 2s;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+
+/* Apply fade-in animation to the alert */
+.alertSuccess {
+  opacity: 1;
+  transition: opacity 2s;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+
+/* Apply fade-out animation to the alert */
+.fadeOut {
+  opacity: 0;
+}
