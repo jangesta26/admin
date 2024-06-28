@@ -1,0 +1,86 @@
+'server only'
+
+const memberData= [
+  {
+    id:1,
+    logo: "/images/brand/brand-01.svg",
+    name: "Google",
+    username: 'john1',
+    type: "Member",
+    status: 1,
+  },
+  {
+    id:2,
+    logo: "/images/brand/brand-02.svg",
+    name: "Twitter",
+    username: 'john2',
+    type: "Member",
+    status: 1,
+  },
+  {
+    id:3,
+    logo: "/images/brand/brand-03.svg",
+    name: "Github",
+    username: 'john3',
+    type: "Member",
+    status: 1,
+  },
+  {
+    id:4,
+    logo: "/images/brand/brand-04.svg",
+    name: "Vimeo",
+    username: 'john4',
+    type: "Member",
+    status: 1,
+  },
+  {
+    id:5,
+    logo: "/images/brand/brand-05.svg",
+    name: "Facebook",
+    username: 'john5',
+    type: "Member",
+    status: 0,
+  },
+  {
+    id:6,
+    logo: "/images/brand/brand-01.svg",
+    name: "Google",
+    username: 'john6',
+    type: "Member",
+    status: 0,
+  },
+  {
+    id:7,
+    logo: "/images/brand/brand-02.svg",
+    name: "Twitter",
+    username: 'john7',
+    type: "Member",
+    status: 1,
+  },
+  {
+    id:8,
+    logo: "/images/brand/brand-03.svg",
+    name: "Github",
+    username: 'john8',
+    type: "Member",
+    status: 1,
+  },
+  {
+    id:9,
+    logo: "/images/brand/brand-04.svg",
+    name: "Vimeo",
+    username: 'john9',
+    type: "Member",
+    status: 1,
+  },
+  {
+    id:10,
+    logo: "/images/brand/brand-05.svg",
+    name: "Facebook",
+    username: 'john10',
+    type: "Member",
+    status: 1,
+  },
+];
+
+export default memberData;

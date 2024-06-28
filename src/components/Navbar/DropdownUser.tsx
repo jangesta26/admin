@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avartar'
+import { Avatar, AvatarImage } from '@/components/ui/avartar'
 import { Contact, LogOut, Settings, User, UserCog } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext';
+import { Label } from '../ui/label'
 
 
 const DropdownUser = () => {
@@ -70,15 +71,15 @@ const DropdownUser = () => {
         href="#"
       >
         <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium capitalize text-black dark:text-white">
+          <span className="block text-sm font-medium capitalize text-black dark:text-white ">
             {username || 'Administrator'}
           </span>
           <span className="block text-xs">Admin</span>
         </span>
-
-        <Avatar>
-          <AvatarImage src="/images/user/user-01.png" />
-          <AvatarFallback>AD</AvatarFallback>
+      
+        <Avatar className='h-10 w-10 items-center justify-center rounded-full border-[0.5px]'>
+          <AvatarImage src="/images/user/user-01.png"/>
+          {/* <Label>AD</Label> */}
         </Avatar>
 
         <Settings className={`transition-all duration-200 ease-out ${

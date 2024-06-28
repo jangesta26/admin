@@ -20,10 +20,10 @@ const Dashboard = () => {
   return (
     <>
       {loading ? <Loader /> :
-      <DefaultLayout >
+      <>
         <Breadcrumb pageName='Status'/>
         <ECommerce/>
-      </DefaultLayout >
+      </>
     }
     </>
   )

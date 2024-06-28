@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback } from 'react';
 import AlertSessionExpired from '@/components/Alerts/AlertSessionExpired';
 
 import { useAuth } from '@/context/AuthContext';
+import DefaultLayout from '@/components/Layout/DefaultLayout';
 
 interface AdminLayoutProps {
     children: ReactNode
@@ -33,7 +34,7 @@ interface AdminLayoutProps {
         setShowSessionExpirePrompt(false);
     }, []);
 
-    useIdleTimer(handleLogout, 300000, handleWarning, 60000);
+    // useIdleTimer(handleLogout, 300000, handleWarning, 60000);
   
     useEffect(() => {
       // Check if user is logged in, if not redirect to login page
@@ -48,12 +49,13 @@ interface AdminLayoutProps {
 
   return (
 
-    <div>
+    <DefaultLayout>
         { 
+        
         children
         }
         {showSessionExpirePrompt && <AlertSessionExpired onExtendSession={handleExtendSession} />}
-    </div>
+    </DefaultLayout>
   );
 }
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 // import SidebarLinkGroup from "./SidebarLinkGroup";
 import nextLogo from '../../../public/brandlogo.png'
-import { ArrowLeftToLine, CalendarDays, ClipboardPenLine, LayoutGrid, LayoutTemplate, LucideFingerprint, PieChart, Settings, Sheet, User } from "lucide-react";
+import { ArrowLeftToLine, CalendarDays, ClipboardPenLine, LayoutGrid, LayoutTemplate, LucideFingerprint, PieChart, Settings, Sheet, User, Users } from "lucide-react";
 import SidebarMenuItems from "./SidebarMenuItems";
 
 interface SidebarProps {
@@ -45,6 +45,14 @@ interface SidebarProps {
 
     { 
       id:2, 
+      menuItemIcon:  <Users className="w-[18px] h-[18px]"/>,
+      menuItemName: 'Members',
+      menuItemIncludes: 'member',
+      menuItemPath: '/member/list-of-members',
+    },
+
+    { 
+      id:3, 
       menuItemIcon:  <CalendarDays className="w-[18px] h-[18px]"/>,
       menuItemName: 'Calendar',
       menuItemIncludes: 'calendar',
@@ -52,7 +60,7 @@ interface SidebarProps {
     },
 
     { 
-      id:3, 
+      id:4, 
       menuItemIcon:  <User className="w-[18px] h-[18px]"/>,
       menuItemName: 'Profile',
       menuItemIncludes: 'profile',
@@ -60,7 +68,7 @@ interface SidebarProps {
     },
 
     {
-      id:4, 
+      id:5, 
       menuItemIcon:  <ClipboardPenLine className="w-[18px] h-[18px]"/>,
       menuItemName: 'Forms',
       menuItemIncludes: 'forms',
@@ -73,7 +81,7 @@ interface SidebarProps {
       ]
     },
     { 
-      id:5, 
+      id:6, 
       menuItemIcon:  <Sheet className="w-[18px] h-[18px]"/>,
       menuItemName: 'Tables',
       menuItemIncludes: 'tables',
@@ -81,7 +89,7 @@ interface SidebarProps {
     },
 
     { 
-      id:6, 
+      id:7, 
       menuItemIcon:  <Settings className="w-[18px] h-[18px]"/>,
       menuItemName: 'Settings',
       menuItemIncludes: 'settings',

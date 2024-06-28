@@ -1,19 +1,22 @@
-// src/middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const isAuthenticated = request.cookies.get('isAuthenticated');
+export function middleware(request: Request) {
+    const origin = request.headers.get('origin');
+    console.log(origin);
 
-  // If the user is not authenticated and trying to access the root URL, redirect to the sign-in page
-  if (!isAuthenticated && request.nextUrl.pathname === '/') {
-    return NextResponse.redirect(new URL('/auth/signin', request.url));
-  }
+    const response = NextResponse.next();
+    response.headers.set("Access-Control-Allow-Origin", "*");
+    response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    response.headers.set("Access-Control-Max-Age", "86400");
 
-  return NextResponse.next();
+    console.log('Middleware!');
+    console.log(request.method);
+    console.log(request.url);
+
+    return response;
 }
 
-// Apply middleware to the root URL and other routes as needed
 export const config = {
-  matcher: ['/', '/dashboard/:path*'], // Apply middleware to the root and all admin routes
+    matcher: '/api/:path*',
 };

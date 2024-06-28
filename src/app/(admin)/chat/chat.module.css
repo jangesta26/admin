@@ -1,0 +1,31 @@
+.messagebox {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar on IE and Edge */
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.bubble {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+/* Example styling for user and bot messages */
+.messagetextright .bubble {
+  background-color: #2196F3;
+  color: #fff;
+}
+
+.message.text-left .bubble {
+  background-color: #f0f0f0;
+  color: #333;
+}

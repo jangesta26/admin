@@ -30,9 +30,9 @@ const CalendarPage = () => {
   return (
     <>
     { loading ? <Loader /> :
-    <DefaultLayout>
+    <>
       <Calendar />
-    </DefaultLayout>
+    </>
     }
     </>
   );

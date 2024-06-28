@@ -1,5 +1,6 @@
+'use client'
 import { CheckCircle } from "lucide-react"
-import style from '@/components/Forms/form.module.css'
+import style from './alert.module.css'
 import { useEffect } from "react";
 
 import {

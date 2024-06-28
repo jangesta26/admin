@@ -1,5 +1,5 @@
 'use client'
-import "jsvectormap/dist/css/jsvectormap.css";
+// import "jsvectormap/dist/css/jsvectormap.css";
 import "flatpickr/dist/flatpickr.min.css";
 import { useEffect, useState  } from "react";
 import Loader from "@/components/Common/Loader";

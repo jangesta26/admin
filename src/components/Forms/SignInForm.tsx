@@ -83,7 +83,8 @@ const SignInForm: React.FC = () => {
                     <Input 
                       placeholder="Input your email" {...field} 
                       className='border-slate-500 py-6 pl-10' 
-                      suffix={<User className='translate-x-8 translate-y-3 pr-1 border-r-2 -ml-6 text-slate-700'/>}
+                      autoComplete="username"
+                      suffix={<User className='translate-x-8 translate-y-3 pr-1 border-r-[1px] -ml-6 text-slate-700'/>}
                       />
                   </FormControl>
                   <FormDescription>
@@ -102,6 +103,7 @@ const SignInForm: React.FC = () => {
                     <PasswordInput 
                       placeholder="Input your password" {...field}
                       className='border-slate-500 py-6 pl-10'
+                      autoComplete="username"
                       showPassword = {showPassword}
                       />
                   </FormControl>
@@ -122,9 +124,9 @@ const SignInForm: React.FC = () => {
               <p className='text-sm' >
 
               </p>
-            </div>
+          </div>
 
-            <Button className='w-full mt-6' type="submit">Sign In</Button>
+            <Button variant={"default"} className='w-full mt-6 py-6 text-xl font-light' type="submit">Sign In</Button>
             {/* <GoogleButton /> */}
             <div className="mt-6 text-center ">
               <p className='text-sm'>

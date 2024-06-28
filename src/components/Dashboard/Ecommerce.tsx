@@ -5,9 +5,9 @@ import ChartTwo from "../Charts/ChartTwo";
 import ChatCard from "../Chat/ChatCard";
 import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
-import MapOne from "../Maps/MapOne";
+// import MapOne from "../Maps/MapOne";
 import { Eye as EyeIcon, ShoppingBag, ShoppingCart, Users } from 'lucide-react';
-import cardDataStatus from './api/cardDataStatus'
+import statusData from '../../api/dashboard/cardDataStatus'
 
 
 
@@ -18,8 +18,8 @@ const ECommerce: React.FC = () => {
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 dark:text-slate-500">
         {
-          cardDataStatus.map((item) => (
-          <CardDataStats title={item.title} total={item.total} rate={item.rate} level={item.level}>
+          statusData.map((item, key) => (
+          <CardDataStats key={key} title={item.title} total={item.total} rate={item.rate} level={item.level}>
            {/* Render the icon directly */}
            {item.icon === 'EyeIcon' && <EyeIcon className="text-primary dark:text-white" />}
             {item.icon === 'ShoppingCart' && <ShoppingCart className="text-primary dark:text-white -scale-x-[1]" />}
