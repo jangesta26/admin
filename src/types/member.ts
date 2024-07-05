@@ -49,6 +49,18 @@ const getMember= getMemberSchema.brand<'GetMember'>()
 export type GetMember = z.infer<typeof getMember>;
 
 
+export const GetApiResponseSchema  = z.object({
+  data: z.array(getMemberSchema),
+  total: z.number(),
+  page: z.number(),
+  total_pages: z.number(),
+});
+
+const getApiResponseSchema = GetApiResponseSchema.brand<'GetApiResponse'>()
+
+export type GetApiResponse = z.infer<typeof getApiResponseSchema>;
+
+
 
 
 

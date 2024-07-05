@@ -1,7 +1,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import { Metadata } from "next";
-import DefaultLayout from "@/components/Layout/DefaultLayout";
+
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 
 const Profile = () => {
   return (
-    <DefaultLayout>
-      <div className="mx-auto max-w-242.5">
+      <div className="mx-auto max-w-full">
         <Breadcrumb pageName="Profile" />
 
         <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -22,7 +21,7 @@ const Profile = () => {
               src={"/images/cover/cover-01.png"}
               alt="profile cover"
               className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
-              width={970}
+              width={9999999}
               height={260}
               style={{
                 width: "auto",
@@ -309,7 +308,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </DefaultLayout>
   );
 };
 
