@@ -22,10 +22,10 @@ const SearchInput:React.FC<PlaceholdeProps> = ({ placeholder, onSearch } ) => {
     setSearchTerm(term);
     const params = new URLSearchParams(searchParams);
     if(term.trim() !== '') {
-      params.set('search', term);
+      params.set('s', term);
       setClearVisible(true);
     } else {
-      params.delete('search');
+      params.delete('s');
       setClearVisible(false);
     }
     replace(`${pathname}?${params.toString()}`);

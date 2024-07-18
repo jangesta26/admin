@@ -2,22 +2,23 @@
 import React from 'react'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce'
+import { Label } from '../ui/label';
 
 interface SetLimitPageProps {
-    placeholderLimitPage: number;
+  entries: string
     onChangePageLimit: (term: string) => void;
   }
 
 const PageSelector: React.FC<SetLimitPageProps> = ({
-    placeholderLimitPage,
+  entries,
     onChangePageLimit
 }) => {
     const item = [
         { id:1, limit:1 }, 
-        { id:2, limit:2 }, 
-        { id:3, limit:5 }, 
-        { id:4, limit:7 }, 
-        { id:5, limit:10 }
+        { id:2, limit:25 }, 
+        { id:3, limit:50 }, 
+        { id:4, limit:75 }, 
+        { id:5, limit:100 }
         ]
 
     const searchParams = useSearchParams();
@@ -34,8 +35,11 @@ const PageSelector: React.FC<SetLimitPageProps> = ({
 
     
   return (
-    <div>
-      <select onChange={(e) => {handleLimitPage(e.target.value)}}>
+    <div className='flex items-center justify-center gap-0.5 '>
+      <Label>{entries}:</Label>
+      <select
+      className='w-15 px-1 border rounded dark:bg-slate-950 dark:text-slate-500' 
+      onChange={(e) => {handleLimitPage(e.target.value)}}>
             {
                 item.map((item) => (
                     <option key={item.id} value={item.limit}>{item.limit}</option>)
