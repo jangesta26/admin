@@ -2,47 +2,53 @@
 import React, {useState, useEffect} from 'react'
 import TableMembers from '@/components/Tables/TableMembers'
 import Loader from '@/components/Common/Loader'
-import { getCurrentPage, getMembers, getTotal, getTotalPage } from '@/api/member/fetch.member'
+import { fetchMembers, getCurrentPage, getTotalItems, getTotalPages} from '@/api/member/fetch.member'
 import Breadcrumbs from './component/Breadcrumbs'
 import AddButton from '@/components/Button/AddButton'
 import SearchInput from '@/components/Search/SearchInput'
 import Paginate from '@/components/Pagination/Paginate'
 import { Label } from '@/components/ui/label'
+import { GetMember } from '@/types/member'
+import PageSelector from '@/components/Selector/PageSelector'
 
 
 
 const Members = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [members, setMembers] = useState<any[]>([]);
-  const [total, setTotal] = useState<any[]>([]);
-  const [totalPage, setTotalPage] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState<any[]>([]);
+  const [members, setMembers] = useState<GetMember[]>([]);
+  const [total, setTotal] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [itemPerPage, setItemPerPage] = useState<number>(0);
 
   const [page, setPage] = useState<string>('');
-  const [getQuery, setGetQuery] = useState<string>('');
+  const [getSearch, setGetSearch] = useState<string>('');
   const [sort, setSort] = useState<string>('');
-  const [itemPerPage, setItemPerPage] = useState<string>('');
+  const [limitPage, setLimitPage] = useState<string>('');
+  
   
   useEffect(() => {
     const fetchData = async () => {
       try{
 
-        const response = await getMembers({
-          getQuery: getQuery, 
+        const response: GetMember[] = await fetchMembers({
+          getSearch: getSearch, 
           sort: sort, 
-          itemPerPage: itemPerPage,
+          limitPage: limitPage,
           page: page,
           
         }); 
-        const response_total = await getTotal();
-        const response_total_page = await getTotalPage();
+        const response_total = await getTotalItems();
+        const response_total_page = await getTotalPages();
         const response_current_page = await getCurrentPage();
+        const response_item_page = await getCurrentPage();
         
         setMembers(response);
         setTotal(response_total);
         setTotalPage(response_total_page)
         setCurrentPage(response_current_page)
+        setItemPerPage(response_item_page)
         setLoading(false);
 
       }catch (error) {
@@ -54,10 +60,10 @@ const Members = () => {
     };
 
     fetchData();
-  }, [getQuery, sort, itemPerPage, page]);
+  }, [getSearch, sort, limitPage, page]);
 
   const handleSearch = (value: string) => {
-    setGetQuery(value);
+    setGetSearch(value);
   };
 
   const handleSort = (value: string) => {
@@ -66,6 +72,10 @@ const Members = () => {
 
   const handlePage = (value: string) => {
     setPage(value);
+  };
+
+  const handleItemLimitPage = (value: string) => {
+    setLimitPage(value);
   };
 
 
@@ -95,7 +105,7 @@ const Members = () => {
               gap-2
             ">
               {/* Items per page selector */}
-                {/* <PageSelector  onChangePageSize={onChangePageSize}/> */}
+                <PageSelector placeholderLimitPage={itemPerPage}  onChangePageLimit={handleItemLimitPage}/>
 
               {/* Search Input */}
                 <SearchInput placeholder="Search by name..." onSearch={handleSearch}/>
@@ -106,7 +116,7 @@ const Members = () => {
               sort={handleSort}
             />
 
-<div className='
+        <div className='
           xl:flex xl:items-center xl:justify-between 
           lg:flex lg:items-center lg:justify-between 
           md:flex md:items-center md:justify-between

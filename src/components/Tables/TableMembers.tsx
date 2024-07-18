@@ -28,18 +28,12 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
   const handleChange = useDebouncedCallback((term: string) => {
    const params = new URLSearchParams(searchParams);
     if(term ){
-      params.delete('sort');
-      params.delete('perPage');
-      params.delete('page');
-      params.set('sort', term);
+      params.set('sortBy', term);
     } else {
-      params.delete('sort');
-      params.delete('s');
-      params.delete('page');
-      params.set('sort', term);
+      params.set('sortBy', term);
     }
+    sort(term);
     setSortBtn(!sortBtn)
-    sort(params.toString());
     replace(`${pathname}?${params.toString()}`);
   
   },300)
@@ -69,8 +63,8 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
                   variant={null}
                   onClick={() => {
                     sortBtn
-                    ? handleChange('asc')
-                    : handleChange('desc')
+                    ? handleChange('ASC')
+                    : handleChange('DESC')
                   }}
                   className='hover:bg-slate-200 gap-4'
                   >

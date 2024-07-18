@@ -36,13 +36,11 @@ const Paginate: React.FC<GetTotalProps> = (
   const handlePageClick = useDebouncedCallback((term:any) => {
 
     const params = new URLSearchParams(searchParams.toString());
-    params.delete('page');
-    params.set('page', term.toString());
-    params.delete('s');
-    params.delete('sort');
 
-    onPage(params.toString());
+    
+    onPage(term);
     setPageHolder(term);
+    params.set('page', term.toString());
 
     const queryString = params.toString() ? `?${params.toString()}` : '';
     const newUrl = `${pathname}${queryString}`;
@@ -58,44 +56,56 @@ const Paginate: React.FC<GetTotalProps> = (
 
     for (let i = startPage; i <= Math.min(totalPages, startPage + maxPagesToShow - 1); i++) {
       pageNumbers.push(
-        <button key={i} onClick={() => handlePageClick(i)} className={i === pageHolder ? 'active' : ''}>
+        <button 
+        key={i} 
+        onClick={() => handlePageClick(i)} 
+        className={`${i === pageHolder 
+        ? 'active bg-slate-900 rounded-lg w-7 h-8 font-semibold text-white' 
+        : ''} `}>
           {i}
         </button>
       );
     }
 
     return (
-      <div className="bg-pink-200 flex gap-1">
-        <ChevronLeft/>
-        <button
-        className='hover:underline hover:text-primary'
-         onClick={() => handlePageClick(pageHolder - 1)} disabled={pageHolder === 1}
-         >
-          Previous
-        </button>
-        {startPage > 1 && <button onClick={() => handlePageClick(1)}>1</button>}
-        {startPage > 2 && <span className="ellipsis">...</span>}
-        {pageNumbers}
-        {startPage + maxPagesToShow - 1 < totalPages && <span className="ellipsis">...</span>}
-        {startPage + maxPagesToShow - 1 <= totalPages && (
-          <button onClick={() => handlePageClick(totalPages)}>{totalPages}</button>
-        )}
-        <button 
-        className='hover:underline hover:text-primary'
-        onClick={() => handlePageClick(pageHolder + 1)} disabled={pageHolder === totalPages}
-        >
-          Next
-        </button>
-        <ChevronRight/>
+      <div className="flex grid-cols-3 gap-3 text-xl">
+
+        <div className='flex'>
+          <ChevronLeft className='w-8 h-8'/>
+          <button
+          className='hover:underline hover:text-primary font-bold -translate-x-1'
+          onClick={() => handlePageClick(pageHolder - 1)} disabled={pageHolder === 1}
+          >
+            Previous
+          </button>
+        </div>
+
+        <div className='flex gap-2 items-center justify-center'>
+          {startPage > 1 && <button onClick={() => handlePageClick(1)}>1</button>}
+          {startPage > 2 && <span className="ellipsis">...</span>}
+          {pageNumbers}
+          {startPage + maxPagesToShow - 1 < totalPages-1 && <span className="ellipsis">...</span>}
+          {startPage + maxPagesToShow - 1 <= totalPages-2 && (
+            <button onClick={() => handlePageClick(totalPages)}>{totalPages}</button>
+          )}
+        </div>
+
+        <div className='flex'>
+          <button 
+          className='hover:underline hover:text-primary font-bold translate-x-1'
+          onClick={() => handlePageClick(pageHolder + 1)} disabled={pageHolder === totalPages}
+          >
+            Next
+          </button>
+          <ChevronRight className='w-8 h-8'/>
+        </div>
+
       </div>
     );
   };
 
   return (
     <div>
-      {/* Render your data based on currentPage */}
-      <h1>Data for Page {pageHolder}</h1>
-      
       {/* Render pagination */}
       {renderPagination()}
     </div>

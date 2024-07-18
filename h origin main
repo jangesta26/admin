@@ -1,0 +1,23 @@
+[33mcommit 0212df7e856f1f34e80edd6de4efd3a81d987b0d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m
+Author: unknown <janellgesta0126@gmail.com>
+Date:   Sat Jul 6 05:11:22 2024 +0800
+
+    Search, Sorting and Pagination
+
+[33mcommit ad4c871a6d51b0ca20bbf2b05fcbf409f6935ead[m
+Author: unknown <janellgesta0126@gmail.com>
+Date:   Sat Jun 29 05:06:01 2024 +0800
+
+    Update tailwind.config.ts with additional screen sizes
+
+[33mcommit 90516fa3d064f4594af3cf3c7524526279522183[m
+Author: unknown <janellgesta0126@gmail.com>
+Date:   Sat Jun 29 04:11:36 2024 +0800
+
+    Fix line endings
+
+[33mcommit 86a0f7707d0b1dc20dc01375aaeac9db91c427d3[m
+Author: unknown <janellgesta0126@gmail.com>
+Date:   Wed Jun 12 21:00:30 2024 +0800
+
+    first commit

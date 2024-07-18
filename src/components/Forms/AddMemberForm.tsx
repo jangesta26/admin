@@ -153,7 +153,7 @@ const AddMemberForm = () => {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
+                            "pl-3 text-left font-normal w-full",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -229,7 +229,7 @@ const AddMemberForm = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='relative'>
                     <FormLabel className='flex gap-1'>Password<p className='text-red text-[20px]'>*</p> </FormLabel>
                     <FormControl>
                       <Input
@@ -240,7 +240,7 @@ const AddMemberForm = () => {
                         />
                     </FormControl>
                     <FormControl onClick={handleChange} className='cursor-pointer' >
-                    <div className='absolute xl:left-[95%] sm:flex left-[85%] md:left-[90%] items-end justify-end mr-4 -translate-y-11'>
+                    <div className='absolute left-full mr-4 -translate-y-11 -translate-x-11'>
                       { !showPassword 
                         ?<EyeOff/>
                         :<Eye/>

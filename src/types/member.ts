@@ -36,24 +36,35 @@ export const getMemberSchema = z.object({
   fname: z.string(),
   lname: z.string(),
   gender: z.string(),
-  dob: z.date(),
+  dob: z.string(),
   email: z.string(),
   username: z.string(),
   password: z.string(),
   status: z.number(),
-  createdAt: z.date(),
+  createdAt: z.string(),
 });
 
 const getMember= getMemberSchema.brand<'GetMember'>()
 
+
 export type GetMember = z.infer<typeof getMember>;
+
+export const getMetaSchema = z.object({
+  itemsPerPage:z.number(),
+  totalItems: z.number(),
+  currentPage: z.number(),
+  totalPages: z.number(),
+  sortBy: z.array(z.array(z.string())),
+});
+
+const getMeta= getMetaSchema.brand<'GetMeta'>()
+
+export type GetMeta = z.infer<typeof getMeta>;
 
 
 export const GetApiResponseSchema  = z.object({
   data: z.array(getMemberSchema),
-  total: z.number(),
-  page: z.number(),
-  total_pages: z.number(),
+  meta: getMetaSchema,
 });
 
 const getApiResponseSchema = GetApiResponseSchema.brand<'GetApiResponse'>()

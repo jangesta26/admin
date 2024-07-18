@@ -1,7 +1,7 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '../ui/input'
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce'
 
@@ -12,29 +12,36 @@ interface PlaceholdeProps{
 }
 
 const SearchInput:React.FC<PlaceholdeProps> = ({ placeholder, onSearch } ) => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [clearVisible, setClearVisible] = useState<boolean>(false); 
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
   const handleSearch = useDebouncedCallback((term: string) => {
+    setSearchTerm(term);
     const params = new URLSearchParams(searchParams);
-    if(term) {
-      params.delete('s');
-      params.delete('sort');
-      params.delete('perPage');
-      params.delete('page');
-      params.set('s', term);
+    if(term.trim() !== '') {
+      params.set('search', term);
+      setClearVisible(true);
     } else {
-      params.delete('s');
-      params.delete('sort');
-      params.delete('perPage');
-      params.delete('page');
+      params.delete('search');
+      setClearVisible(false);
     }
-    onSearch(params.toString());
     replace(`${pathname}?${params.toString()}`);
+    onSearch(term);
     
-   
-  },300)
+  },10)
+
+  const handleClear = () => {
+    setSearchTerm(''); // Clear local search term state
+    setClearVisible(false); // Hide clear button
+    const params = new URLSearchParams(searchParams);
+    params.delete('search');
+    replace(`${pathname}?${params.toString()}`);
+    onSearch(''); // Callback to parent component with empty search term
+  };
+
 
   return (
     <div className='
@@ -51,9 +58,16 @@ const SearchInput:React.FC<PlaceholdeProps> = ({ placeholder, onSearch } ) => {
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
+        value={searchTerm}
         defaultValue={searchParams.get('s')?.toString()}
         suffix={<Search className='h-6 w-6 opacity-70 translate-x-8 translate-y-2' />}
         />
+        { clearVisible  
+        && <X 
+        className='w-4 h-4 bg-black text-white cursor-pointer rounded shadow-2xl -translate-x-8 translate-y-3 hover:text-red'
+        onClick={handleClear}
+        /> 
+        }
     </div>
   )
 }

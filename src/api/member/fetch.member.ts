@@ -1,47 +1,38 @@
 'server only'
 import { GetApiResponse, GetMember } from "@/types/member"
+import queryString from 'query-string';
 
-export async function getMembers({
-  getQuery,
+interface GetMembersParams {
+  getSearch: string | null;
+  sort: string | null;
+  limitPage: string | null;
+  page: string | null;
+}
+
+export async function fetchMembers({
+  getSearch,
   sort,
-  itemPerPage,
+  limitPage,
   page,
-} : {
-  getQuery:string, 
-  sort: string,
-  itemPerPage: string,
-  page: string,
-
-}): Promise<GetMember[]> {
+}: GetMembersParams): Promise<GetMember[]> {
   
+
+  console.log(page)
 
   try {
 
-    let itemQuery = `?${getQuery ? (getQuery+'&') : (getQuery+'')}${sort ? (sort+'&') : (sort+'')}${itemPerPage ? (itemPerPage+'&') : (itemPerPage+'')}${!page ? (page+'&') : (page+'')}`
-    console.log(itemQuery+'.....')
+    const queryParams = {
+      search: getSearch ? getSearch : undefined,
+      sortBy: sort ? `id:${sort}` : undefined,
+      limit: limitPage ? limitPage : undefined,
+      page: page ? page.toString() : undefined,
+    }
 
-    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/accounts/member${itemQuery}`;
+    console.log(queryParams)
+      
 
-    // if (getQuery || sort || itemPerPage || page) {
-    //   apiUrl += '?';
-
-    //   if (getQuery) {
-    //     apiUrl += `${getQuery}`;
-    //   }
-
-    //   if (sort) {
-    //     apiUrl += `${getQuery ? '&' : ''}${sort}`;
-    //   }
-
-    //   if (itemPerPage) {
-    //     apiUrl += `${getQuery ? '&' : ''}${itemPerPage}`;
-    //   }
-
-    //   if (page) {
-    //     apiUrl += `${getQuery ? '&' : ''}${page}`;
-    //   }
-    // }
-
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/accounts/member?${queryString.stringify(queryParams)}`;
+    console.log(apiUrl)
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -49,11 +40,13 @@ export async function getMembers({
       },
     });
 
+   
+
     if (!response.ok) {
       throw new Error(`Failed to fetch data: ${response.statusText}`);
     }
 
-    const apiResponse: GetApiResponse = await response.json();
+    const apiResponse = await response.json() as GetApiResponse;
         
     const members: any = apiResponse.data;
 
@@ -65,9 +58,7 @@ export async function getMembers({
   }
 }
 
-
-export async function getTotal(): Promise<GetApiResponse[]> {
-
+async function fetchApiInfo(endpoint: string): Promise<number> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/member`, {
       method: 'GET',
@@ -80,69 +71,38 @@ export async function getTotal(): Promise<GetApiResponse[]> {
       throw new Error(`Failed to fetch data: ${response.statusText}`);
     }
 
-    const apiResponse: GetApiResponse = await response.json();
-        
-    const total: any = apiResponse.total;
+    const apiResponse = await response.json() as  GetApiResponse ;
 
-    return total;
-    
-  } catch (error) {
-    console.error('Fetch members error:', error);
-    throw new Error('Failed to fetch members');
-  }
-}
-
-export async function getTotalPage(): Promise<GetApiResponse[]> {
-
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/member`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.statusText}`);
+    switch (endpoint) {
+      case 'totalItems':
+        return apiResponse.meta.totalItems;
+      case 'totalPages':
+        return apiResponse.meta.totalPages;
+      case 'currentPage':
+        return apiResponse.meta.currentPage;
+      default:
+        throw new Error(`Invalid endpoint: ${endpoint}`);
     }
 
-    const apiResponse: GetApiResponse = await response.json();
-        
-    const total_page: any = apiResponse.total_pages;
-
-    return total_page;
-    
   } catch (error) {
-    console.error('Fetch members error:', error);
-    throw new Error('Failed to fetch members');
+    console.error(`Fetch ${endpoint} error:`, error);
+    throw new Error(`Failed to fetch ${endpoint}`);
   }
 }
 
-export async function getCurrentPage(): Promise<GetApiResponse[]> {
-
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/member`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.statusText}`);
-    }
-
-    const apiResponse: GetApiResponse = await response.json();
-        
-    const current_page: any = apiResponse.page;
-
-    return current_page;
-    
-  } catch (error) {
-    console.error('Fetch members error:', error);
-    throw new Error('Failed to fetch members');
-  }
+export async function getTotalItems(): Promise<number> {
+  return fetchApiInfo('totalItems');
 }
 
+export async function getTotalPages(): Promise<number> {
+  return fetchApiInfo('totalPages');
+}
 
+export async function getCurrentPage(): Promise<number> {
+  return fetchApiInfo('currentPage');
+}
+
+export async function getItemPerPage(): Promise<number> {
+  return fetchApiInfo('itemsPerPage');
+}
 
