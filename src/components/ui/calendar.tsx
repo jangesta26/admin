@@ -80,12 +80,16 @@ function Calendar({
                 }}
                 value={props.value?.toString()}
               >
-                <SelectTrigger>
+                <SelectTrigger
+                className="text-black dark:text-white dark:font-light"
+                >
                   {format(currentMonth, "MMM")}
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-slate-950">
+                <SelectContent className="bg-white dark:bg-slate-950 dark:text-white">
                   {selectItems.map((selectItem, index) => (
-                    <SelectItem key={index} value={selectItem.value}>
+                    <SelectItem
+                    className="text-black dark:text-white"
+                    key={index} value={selectItem.value}>
                       {selectItem.label}
                     </SelectItem>
                   ))}
@@ -117,12 +121,16 @@ function Calendar({
                   }}
                   value={props.value?.toString()}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger
+                    className="text-black dark:text-white"
+                  >
                     {currentMonth.getFullYear()}
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-slate-950 -translate-x-4">
+                  <SelectContent className="bg-white dark:bg-slate-950 dark:text-white -translate-x-4">
                     {selectItems.map((selectItem, index) => (
-                      <SelectItem key={index} value={selectItem.value}>
+                      <SelectItem
+                        className="text-black dark:text-white"
+                      key={index} value={selectItem.value}>
                         {selectItem.label}
                       </SelectItem>
                     ))}

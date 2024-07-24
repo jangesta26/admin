@@ -14,10 +14,8 @@ export async function fetchMembers({
   sort,
   limitPage,
   page,
-}: GetMembersParams): Promise<{ members:any[], meta: GetApiResponse['meta'] }> {
+}: GetMembersParams): Promise<{ members:GetMember[], meta: GetApiResponse['meta'] }> {
   try {
-    console.log('-------------defaultLimit--'+limitPage)
-
 
     const queryParams = {
       search: getSearch || undefined,
@@ -27,7 +25,33 @@ export async function fetchMembers({
     };
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/accounts/member?${queryString.stringify(queryParams)}`;
-    console.log('-------------'+apiUrl)
+    const response = await fetch(apiUrl, {
+      next: {
+        tags: ['member'],
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.statusText}`);
+    }
+
+    const apiResponse = await response.json() as GetApiResponse;
+    const members:any = apiResponse.data;
+
+    return { members, meta: apiResponse.meta };
+
+  } catch (error) {
+    console.error('Fetch members error:', error);
+    throw new Error('Failed to fetch members');
+  }
+}
+
+export async function fetchMember({
+  id
+}: {id:string}): Promise<any> {
+  try {
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`;
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -39,10 +63,9 @@ export async function fetchMembers({
       throw new Error(`Failed to fetch data: ${response.statusText}`);
     }
 
-    const apiResponse = await response.json() as GetApiResponse;
-    const members = apiResponse.data;
+    const apiResponse = await response.json() as any;
 
-    return { members, meta: apiResponse.meta };
+    return apiResponse;
 
   } catch (error) {
     console.error('Fetch members error:', error);

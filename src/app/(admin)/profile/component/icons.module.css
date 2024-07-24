@@ -1,0 +1,153 @@
+/* social media icons */
+
+.icon_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon_container .icon_content {
+    margin: 0 10px;
+     position: relative;
+  --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.icon_container .icon_content .tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 15px;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+.icon_container .icon_content:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  top: -50px;
+}
+.icon_container .icon_content a {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 20%;
+  color: black;
+  background-color: rgb(60 80 224 / 0.2);
+  transition: all 0.3s ease-in-out;
+}
+.icon_container .icon_content a:hover {
+  box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
+}
+.icon_container .icon_content a svg {
+  position: relative;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+}
+.icon_container .icon_content a:hover {
+  color: white;
+}
+.icon_container .icon_content a .filled {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #000;
+  transition: all 0.3s ease-in-out;
+}
+.icon_container .icon_content a:hover .filled {
+  height: 100%;
+}
+.icon_container .icon_content a[data-social="spotify"] .filled,
+.icon_container .icon_content a[data-social="spotify"] ~ .tooltip {
+  background-color: #1db954;
+}
+.icon_container .icon_content a[data-social="pinterest"] .filled,
+.icon_container .icon_content a[data-social="pinterest"] ~ .tooltip {
+  background-color: #bd081c;
+}
+.icon_container .icon_content a[data-social="dribbble"] .filled,
+.icon_container .icon_content a[data-social="dribbble"] ~ .tooltip {
+  background-color: #ea4c89;
+}
+.icon_container .icon_content a[data-social="telegram"] .filled,
+.icon_container .icon_content a[data-social="telegram"] ~ .tooltip {
+  background-color: #0088cc;
+}
+
+
+/* edit icon */
+
+.editBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none !important;
+  }
+  
+  .editSvgIcon {
+    width: 17px;
+    transition-duration: 0.3s;
+  }
+  
+  .editSvgIcon path {
+    fill: white;
+  }
+  
+  .editBtn:hover {
+    width: 120px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgb(255, 69, 69);
+    align-items: center;
+  }
+  
+  .editBtn:hover .editSvgIcon {
+    width: 20px;
+    transition-duration: 0.3s;
+    transform: translateY(60%);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+  
+  .editBtn::before {
+    display: none;
+    content: "Edit";
+    color: white;
+    transition-duration: 0.3s;
+    font-size: 2px;
+  }
+  
+  .editBtn:hover::before {
+    display: block;
+    padding-right: 10px;
+    font-size: 13px;
+    opacity: 1;
+    transform: translateY(0px);
+    transition-duration: 0.3s;
+  }
+  

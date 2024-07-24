@@ -116,7 +116,7 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
             key={key}
           >
 
-            <Link href={`/profile/${data.id}`} 
+            <Link href={`/settings/account_details/${data.id}?id=${data.id}`} 
             className='
               flex items-center justify-center
               xl:items-center xl:justify-start

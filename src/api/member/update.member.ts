@@ -1,16 +1,15 @@
 'server only'
 import { AddMemberAccount } from "@/types/member";
-import { revalidateTag } from "next/cache";
 import swal from 'sweetalert';
 
-export default async function createMember(data:AddMemberAccount) {
+export default async function updateMember(data:AddMemberAccount) {
     try {
       const status = 1;
       const currentDate = new Date();
       const options = { timeZone: 'Asia/Manila' };
       const philippineTime = currentDate.toLocaleString('en-US', options);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts`, {
-        method: 'POST',
+        method: 'UPDATE',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -23,8 +22,6 @@ export default async function createMember(data:AddMemberAccount) {
 
       if (!response.ok) {
         const responseData = await response.json();
-        revalidateTag('member');
-        
         if (response.status === 409 && responseData.message === 'Email already exists') {
           swal({
             title: 'Error!',

@@ -63,6 +63,7 @@ const SidebarMenuItems = ({ sidebarMenuItemsData, sidebarOpen, setSidebarOpen }:
                       />
                 </Link>
               ) : (
+                <>
                 <Link
                   href={item.menuItemPath || ""}
                   className={`${sidebarOpen && "lg:px-2 rounded-[5px]"} group relative flex items-center gap-2.5 px-4 py-2 font-light tracking-widest text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
@@ -72,6 +73,8 @@ const SidebarMenuItems = ({ sidebarMenuItemsData, sidebarOpen, setSidebarOpen }:
                   <div className={`${sidebarOpen && "lg:mx-auto"}`}>{item.menuItemIcon}</div>
                   <p className={`${sidebarOpen && "lg:hidden"} font-light`}>{item.menuItemName}</p>
                 </Link>
+                
+                </>
               )}
 
               {item.subMenuItem && (

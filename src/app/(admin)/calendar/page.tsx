@@ -1,9 +1,8 @@
 'use client'
-import Calendar from "@/components/Calender";
-import DefaultLayout from "@/components/Layout/DefaultLayout";
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Loader from "@/components/Common/Loader/";
+import Calendar from '@/components/Calender/Calendar';
 
 
 const CalendarPage = () => {

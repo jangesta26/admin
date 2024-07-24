@@ -1,95 +1,129 @@
 'use client'
-import React, { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Input } from '../ui/input';
-import { AddMemberAccount, AddMemberSchema } from '@/types/member';
-import { CalendarIcon, Eye, EyeOff } from 'lucide-react';
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
-
+import React, { useEffect, useState } from 'react'
 import { 
-  Form, 
-  FormControl, 
-  FormDescription, 
-  FormField, FormItem, 
-  FormLabel, 
-  FormMessage, 
-} from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+    Form, 
+    FormControl, 
+    FormDescription, 
+    FormField, FormItem, 
+    FormLabel, 
+    FormMessage, 
+  } from '@/components/ui/form';
 
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Calendar } from '../ui/calendar'
-import createMember from '@/api/member/create.member'
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+
+import { Calendar } from '@/components/ui/calendar'
+import { GetMember, UpdateMemberAccount, UpdateMemberSchema } from '@/types/member';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form'
+import updateMember from '@/api/member/update.member';
+import { Input } from '@/components/ui/input';
+import { CalendarIcon, Cloudy, Edit, Eye, EyeOff } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+
+interface MemberProps {
+  id?: number,
+  fname?: string;
+  lname?: string,
+  gender?: string,
+  dob?: Date,
+  email?: string,
+  username?: string,
+  password?: string, 
+
+}
+
+const EditForm: React.FC<MemberProps> = ( 
+{
+  id,
+  fname,
+  lname,
+  gender,
+  dob,
+  email,
+  username,
+  password, 
+}
+) => {
 
 
-const AddMemberForm = () => {
-
-    const [errorSubmit, setErrorSubmit] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [editBtn, setEditBtn] = useState(false);
 
-
-    // zod validation
-    const form = useForm<AddMemberAccount>({
-      resolver: zodResolver(AddMemberSchema),
-      defaultValues: {
-        fname: "",
-        lname: "",
-        gender:"",
-        dob:undefined,
-        email: "",
-        username: "",
-        password: "",
-      },
-    })
+    const form = useForm<UpdateMemberAccount>({
+        resolver: zodResolver(UpdateMemberSchema),
+        defaultValues: {
+          fname: fname || '',
+          lname: lname || '',
+          gender: gender || '',
+          dob: dob ? (new Date(dob)) : ( undefined ),
+          email:email || '',
+          username:username || '',
+          password: password || '',
+        },
+      })
 
 
     // to detemine password
     const handleChange = () => {
-      setShowPassword(!showPassword);
+        setShowPassword(!showPassword);
     }
 
-    // api route
-    const onSubmit = async (data:AddMemberAccount) => {
-      console.log(data)
-      try {
-          await createMember(data);
-      } catch (error) {
-          console.error('Error adding member:', error);
-      }
+    //update  api route
+    const onSubmit = async (data:UpdateMemberAccount) => {
+        console.log(data)
+        try {
+            // await updateMember(data);
+            alert('update');
+        } catch (error) {
+            console.error('Error adding member:', error);
+        }
     };
+  
+  const handleClickEditBtn = () => {
+    if(!editBtn){
+      if (window.confirm('Do you want to edit?')) {
+        setEditBtn(!editBtn);
+      }
+    } else {
+      if (window.confirm('Do you want to disable?')) {
+        setEditBtn(!editBtn);
+      }
+    }
+    
+  }
+
 
   return (
-    <>
-      <Form {...form}>
+    <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className='text-2xl font-medium text-black dark:text-white mb-4'>
-            Member Details
-          </h1>
-          <div className='grid xl:grid-flow-col sm:grid-col gap-4'>
-            <div className='space-y-4'>
+            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+            <div className="w-full sm:w-1/2">
             
-              <FormField
+            <FormField
                 control={form.control}
                 name="fname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='flex gap-1'>First Name <p className='text-red text-[20px]'>*</p></FormLabel>
+                    <FormLabel className='flex gap-1'>First Name</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Input your first name" {...field} 
-                        className='py-6 pl-4 rounded-lg' 
+                        placeholder="" {...field} 
+                        className='py-6 pl-4 rounded-lg capitalize' 
+                        disabled={!editBtn && true}
                         />
                     </FormControl>
                     <FormDescription>
@@ -98,16 +132,20 @@ const AddMemberForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+            </div>
+
+            <div className="w-full sm:w-1/2">
+            <FormField
                 control={form.control}
                 name="lname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='flex gap-1'>Last Name <p className='text-red text-[20px]'>*</p></FormLabel>
+                    <FormLabel className='flex gap-1'>Last Name</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Input your last name" {...field} 
-                        className='py-6 pl-4 rounded-lg' 
+                        placeholder="" {...field} 
+                        className='py-6 pl-4 rounded-lg capitalize' 
+                        disabled={!editBtn && true}
                         />
                     </FormControl>
                     <FormDescription>
@@ -116,16 +154,19 @@ const AddMemberForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+            </div>
+            </div>
+            <div className="mb-5.5">
+            <FormField
                 control={form.control}
                 name="gender"
                 render={({ field }) => (
                   <FormItem>
-                  <FormLabel className='flex gap-1'>Gender <p className='text-red text-[20px]'>*</p></FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormLabel className='flex gap-1'>Gender</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}  disabled={!editBtn && true}>
                       <FormControl className='py-6 pl-4 rounded-lg dark:bg-slate-950'>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a gender" />
+                          <SelectValue placeholder=""{...field}/>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="bg-white dark:bg-slate-950">
@@ -140,17 +181,20 @@ const AddMemberForm = () => {
                   </FormItem>
                 )}
               />
+            </div>
+            <div className="mb-5.5">
             <FormField
               control={form.control}
               name="dob"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                   <FormLabel className='flex gap-1'>Date of birth <p className='text-red text-[20px]'>*</p></FormLabel>
+                   <FormLabel className='flex gap-1'>Date of birth</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={"outline"}
+                          disabled={!editBtn && true}
                           className={cn(
                             "pl-3 text-left font-normal w-full",
                             !field.value && "text-muted-foreground"
@@ -167,6 +211,7 @@ const AddMemberForm = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-white dark:bg-slate-950" align="start">
                       <Calendar
+                        className='text-black dark:text-white'
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
@@ -183,19 +228,19 @@ const AddMemberForm = () => {
                 </FormItem>
               )}
             />
-
             </div>
-            <div className='space-y-4'>
-              <FormField
+            <div className="mb-5.5">
+                <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='flex gap-1'>Email<p className='text-red text-[20px]'>*</p></FormLabel>
+                    <FormLabel className='flex gap-1'>Email</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Input your email" {...field} 
+                        placeholder="" {...field} 
                         className='py-6 pl-4 rounded-lg' 
+                        disabled={!editBtn && true}
                         />
                     </FormControl>
                     <FormDescription>
@@ -204,17 +249,21 @@ const AddMemberForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+            </div>
+
+            <div className="mb-5.5">
+            <FormField
                 control={form.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='flex gap-1'>Username<p className='text-red text-[20px]'>*</p></FormLabel>
+                    <FormLabel className='flex gap-1'>Username</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Input your username" {...field } 
+                        placeholder="" {...field } 
                         className='py-6 pl-4 rounded-lg' 
                         autoComplete="username"
+                        disabled={!editBtn && true}
                        
                         />
                     </FormControl>
@@ -224,18 +273,22 @@ const AddMemberForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+            </div>
+
+            <div className="mb-5.5">
+            <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem className='relative'>
-                    <FormLabel className='flex gap-1'>Password<p className='text-red text-[20px]'>*</p> </FormLabel>
+                    <FormLabel className='flex gap-1'>Password </FormLabel>
                     <FormControl>
                       <Input
                         type={showPassword ? 'text' : 'password'}
-                        placeholder="Input your password" {...field } 
+                        placeholder="" {...field } 
                         className='py-6 pl-4 pr-12 rounded-lg' 
                         autoComplete="current-password" 
+                        disabled={!editBtn && true}
                         />
                     </FormControl>
                     <FormControl onClick={handleChange} className='cursor-pointer' >
@@ -253,19 +306,23 @@ const AddMemberForm = () => {
                 )}
               />
             </div>
-          </div>
 
-            <Button
-            variant={"default"} 
-            className='mx-auto items-center w-30 py-6 mt-6 text-xl font-extralight' 
-            type="submit"
-            >
-              Add
-            </Button>
+            <div className="flex items-center justify-start gap-2">
+                <span
+                className='flex w-15 h-10 bg-indigo-700 text-white text-center px-2 py-2 rounded-lg hover:cursor-pointer'
+                onClick={handleClickEditBtn}
+                >
+                  <Edit/>  Edit
+                </span>
+                <Button 
+                
+                className={`gap-1 text-sm ${!editBtn ? 'hidden' :'' }`}>
+                  <Cloudy/> Save Changes
+                </Button>
+            </div>
         </form>
-      </Form>
-
-    </>
+    </Form>
   )
 }
-export default AddMemberForm
+
+export default EditForm
