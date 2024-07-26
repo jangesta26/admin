@@ -1,23 +1,6 @@
-/* components/DatePicker.module.css */
-
-.datePickerContainer {
-  width: 100%;
-  max-width: 300px; /* Adjust maximum width as needed */
-  margin: 0 auto;
-}
-
-.datePicker {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-/* Example of making the date picker responsive */
-@media (max-width: 600px) {
-  .datePickerContainer {
-    max-width: 100%; /* Full width on smaller screens */
-  }
+.my-booked-class {
+  --tw-bg-opacity: 1;
+    background-color: rgb(60 80 224 / var(--tw-bg-opacity));
+  color: white;
+  border-radius: 50%;
 }

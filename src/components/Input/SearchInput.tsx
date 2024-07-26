@@ -22,10 +22,10 @@ const SearchInput:React.FC<PlaceholdeProps> = ({ placeholder, onSearch } ) => {
     setSearchTerm(term);
     const params = new URLSearchParams(searchParams);
     if(term.trim() !== '') {
-      params.set('s', term);
+      params.set('search', term);
       setClearVisible(true);
     } else {
-      params.delete('s');
+      params.delete('search');
       setClearVisible(false);
     }
     replace(`${pathname}?${params.toString()}`);
@@ -53,13 +53,13 @@ const SearchInput:React.FC<PlaceholdeProps> = ({ placeholder, onSearch } ) => {
   '>
         <Input
         type="text"
-        className="pl-10 rounded-lg w-[14.3rem]"
+        className="pl-10 rounded-lg w-full "
         placeholder={placeholder}
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
         value={searchTerm}
-        defaultValue={searchParams.get('s')?.toString()}
+        defaultValue={searchParams.get('sort')?.toString()}
         suffix={<Search className='h-6 w-6 opacity-70 translate-x-8 translate-y-2' />}
         />
         { clearVisible  

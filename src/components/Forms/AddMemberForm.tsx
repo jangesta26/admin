@@ -62,7 +62,6 @@ const AddMemberForm = () => {
 
     // api route
     const onSubmit = async (data:AddMemberAccount) => {
-      console.log(data)
       try {
           await createMember(data);
       } catch (error) {
@@ -170,10 +169,10 @@ const AddMemberForm = () => {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        captionLayout='dropdown-buttons'
-                        fromYear={1950}
-                        toYear={2024}
-                        initialFocus
+                        startMonth={new Date(1950, 0)}
+                        defaultMonth={field.value ? new Date(field.value) : new Date()}
+                        captionLayout='dropdown'
+                        footer={field.value ? field.value.toLocaleDateString() : 'Today'}
                       />
                     </PopoverContent>
                   </Popover>

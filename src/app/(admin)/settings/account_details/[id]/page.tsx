@@ -7,21 +7,20 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
 const AccountDetails= () => {
-  const searchParams = useSearchParams();
-  const newParam = searchParams.get("id")
-  console.log(newParam)
+const searchParams = useSearchParams();
+const newParam = searchParams.get("id")
 const router = useRouter();
-const [ member, setMember ] = useState<GetMember>(); 
+const [ member, setMember ] = useState<GetMember>();
+
 
 useEffect(() => {
 
   const fetchData = async () => {
     try {
       const fetchedMember   = await fetchMember({ id: newParam as string });
-
       setMember(fetchedMember);
     } catch (error) {
-      // router.push('/not-found')
+      router.push('/not-found')
       console.error('Error fetching data:', error);
     }
   };

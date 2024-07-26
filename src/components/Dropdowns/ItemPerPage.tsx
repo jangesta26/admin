@@ -9,7 +9,7 @@ interface SetLimitPageProps {
     onChangePageLimit: (term: string) => void;
   }
 
-const PageSelector: React.FC<SetLimitPageProps> = ({
+const ItemPerPage: React.FC<SetLimitPageProps> = ({
   entries,
     onChangePageLimit
 }) => {
@@ -51,4 +51,4 @@ const PageSelector: React.FC<SetLimitPageProps> = ({
   )
 }
 
-export default PageSelector
+export default ItemPerPage

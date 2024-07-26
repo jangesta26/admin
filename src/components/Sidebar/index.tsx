@@ -88,13 +88,13 @@ interface SidebarProps {
       menuItemPath: '/tables',
     },
 
-    { 
-      id:7, 
-      menuItemIcon:  <Settings className="w-[18px] h-[18px]"/>,
-      menuItemName: 'Settings',
-      menuItemIncludes: 'settings',
-      menuItemPath: '/settings',
-    },
+    // { 
+    //   id:7, 
+    //   menuItemIcon:  <Settings className="w-[18px] h-[18px]"/>,
+    //   menuItemName: 'Settings',
+    //   menuItemIncludes: 'settings',
+    //   menuItemPath: '/settings/account_details/',
+    // },
   ]
 
 

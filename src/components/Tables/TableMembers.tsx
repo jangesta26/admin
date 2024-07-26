@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { ArrowDownAZ, ArrowUpZA, Edit, Trash2, UserCircle } from 'lucide-react';
+import { ArrowDownAZ, ArrowDownUp, ArrowUpDown, ArrowUpZA, Edit, Trash2, UserCircle } from 'lucide-react';
 import Link from 'next/link';
 import { GetMember } from '@/types/member';
 import { Label } from '../ui/label';
@@ -66,13 +66,13 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
                     ? handleChange('ASC')
                     : handleChange('DESC')
                   }}
-                  className='hover:bg-slate-200 gap-4'
+                  className='gap-4'
                   >
-                    <h5 className="text-md font-medium uppercase xsm:text-base">
+                    <h5 className="text-lg font-medium uppercase xsm:text-base">
                       {items.headerName}
                     </h5>
                       
-                        { !sortBtn ? <ArrowDownAZ /> : <ArrowUpZA/> }
+                        { !sortBtn ? <ArrowDownUp className='h-4'/> : <ArrowUpDown className='h-4'/> }
                       
                   </Button>
                 ) : (
@@ -108,6 +108,7 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
             text-sm
             border-t
             hover:bg-slate-100
+            dark:hover:bg-meta-4
             ${
               key === dataMember.length - 0
                 ? ''

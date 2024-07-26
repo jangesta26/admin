@@ -70,10 +70,10 @@ const Paginate: React.FC<GetTotalProps> = (
     }
 
     return (
-      <div className="flex grid-cols-3 rounded-lg py-0 bg-slate-300 dark:bg-black dark:text-white">
+      <div className="flex grid-cols-3 rounded-lg py-0 bg-black dark:bg-black text-white">
         <div className="flex">
           <button
-           className={`${styles.roundedLeftButton} ${styles.paginationButton} 
+           className={`border-r-[1px] ${styles.roundedLeftButton} ${styles.paginationButton} 
            ${
             pageCurrent === 1 ? styles.disabled : ''
           }`}
@@ -93,7 +93,7 @@ const Paginate: React.FC<GetTotalProps> = (
           </button>
         </div>
 
-        <div className="flex w-full items-center justify-center">
+        <div className="flex w-full items-center justify-center border-r-[1px]">
           {startPage > 1 && (
             <>
               <button className={`flex px-3 ${startPage !==1 && 'px-3  py-1 hover:bg-black-2'}`} onClick={() => handlePageClick(1)}>1</button>
@@ -111,7 +111,7 @@ const Paginate: React.FC<GetTotalProps> = (
 
         <div className='flex'>
           <button 
-           className={`sm:flex items-center hidden ${styles.paginationButton} ${
+           className={` sm:flex items-center hidden ${styles.paginationButton} ${
               pageCurrent === totalPages ? styles.disabled : ''
             }`}
           onClick={() => handlePageClick(pageCurrent + 1)} disabled={pageCurrent === totalPages}

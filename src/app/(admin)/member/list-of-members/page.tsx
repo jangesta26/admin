@@ -1,24 +1,22 @@
-'use client'
-import React, {useState, useEffect} from 'react'
-import TableMembers from '@/components/Tables/TableMembers'
-import Loader from '@/components/Common/Loader'
-import { fetchMembers} from '@/api/member/fetch.member'
-import Breadcrumbs from './component/Breadcrumbs'
-import AddButton from '@/components/Button/AddButton'
-import SearchInput from '@/components/Search/SearchInput'
-import Paginate from '@/components/Pagination/Paginate'
-import { Label } from '@/components/ui/label'
-import { GetMember } from '@/types/member'
-import PageSelector from '@/components/Selector/PageSelector'
-
+'use client';
+import React, { useState, useEffect } from 'react';
+import TableMembers from '@/components/Tables/TableMembers';
+import Loader from '@/components/Common/Loader';
+import { fetchMembers } from '@/api/member/fetch.member';
+import Breadcrumbs from './component/Breadcrumbs';
+import AddButton from '@/components/Button/AddButton';
+import SearchInput from '@/components/Input/SearchInput';
+import Paginate from '@/components/Pagination/Paginate';
+import { Label } from '@/components/ui/label';
+import { GetMember } from '@/types/member';
+import ItemPerPage from '@/components/Dropdowns/ItemPerPage';
 
 const Members = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [members, setMembers] = useState<GetMember[]>([]); // Initialize with an empty array
+  const [members, setMembers] = useState<GetMember[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
-
   const [page, setPage] = useState<string>('');
   const [getSearch, setGetSearch] = useState<string>('');
   const [sort, setSort] = useState<string>('');
@@ -28,7 +26,6 @@ const Members = () => {
     const fetchData = async () => {
       try {
         const { members, meta } = await fetchMembers({ getSearch, sort, limitPage, page });
-
         setMembers(members);
         setTotal(meta.totalItems);
         setTotalPage(meta.totalPages);
@@ -36,7 +33,6 @@ const Members = () => {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        
         setLoading(false);
       }
     };
@@ -65,48 +61,26 @@ const Members = () => {
       {loading ? <Loader /> : (
         <>
           <Breadcrumbs />
-          <div className="rounded-sm border border-stroke bg-white px-2 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-            <div className="
-              xl:flex xl:items-center xl:justify-between 
-              lg:flex lg:items-center lg:justify-between 
-              md:flex md:items-center md:justify-between 
-              grid grid-cols
-              mb-4
-            ">
-              <h4 className="translate-y-1 mb-6 text-2xl font-light text-black dark:text-white">
+          <div className="rounded-sm border border-stroke bg-white px-4 pb-4 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-6 lg:px-8">
+            <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <h4 className="text-2xl font-light text-black dark:text-white">
                 List of Members
               </h4>
               <AddButton />
             </div>
-            <div className="
-              mb-6 
-              xl:flex xl:items-center xl:justify-between 
-              lg:flex lg:items-center lg:justify-between 
-              md:flex md:items-center md:justify-between 
-              flex flex-cols
-              gap-2
-            ">
+            <div className="mb-6 flex flex-wrap gap-4 sm:flex-row sm:items-center sm:justify-between">
               {/* Items per page selector */}
-              <PageSelector entries='Entries' onChangePageLimit={handleItemLimitPage} />
-
+              <ItemPerPage entries='Entries' onChangePageLimit={handleItemLimitPage} />
               {/* Search Input */}
               <SearchInput placeholder="Search by name..." onSearch={handleSearch} />
-
             </div>
             <TableMembers
               dataMember={members}
               sort={handleSort}
             />
-
-            <div className='
-              xl:flex xl:items-center xl:justify-between 
-              lg:flex lg:items-center lg:justify-between 
-              md:flex md:items-center md:justify-between
-              grid grid-cols items-center justify-center
-              mb-4 
-            '>
-              {/* result */}
-              <div className='flex items-center justify-center mb-4'>
+            <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              {/* Result */}
+              <div className="flex items-center">
                 <Label>
                   Showing result {members.length > 0 ? 1 : 0} to {members.length} of {total} entries
                 </Label>
@@ -119,8 +93,6 @@ const Members = () => {
       )}
     </>
   );
-}
+};
 
 export default Members;
-
-

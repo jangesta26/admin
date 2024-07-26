@@ -116,7 +116,7 @@ const DropdownUser = () => {
           </li>
           <li>
             <Link
-              href="/pages/settings"
+              href={`/settings/account_details/1000232300441?id=${0}`}
               className="flex items-center gap-3.5 text-sm duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <UserCog />

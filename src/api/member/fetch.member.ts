@@ -25,11 +25,13 @@ export async function fetchMembers({
     };
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/accounts/member?${queryString.stringify(queryParams)}`;
+    console.log(apiUrl)
     const response = await fetch(apiUrl, {
       next: {
         tags: ['member'],
       },
     });
+
 
     if (!response.ok) {
       throw new Error(`Failed to fetch data: ${response.statusText}`);

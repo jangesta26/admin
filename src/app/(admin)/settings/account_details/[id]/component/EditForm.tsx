@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { 
     Form, 
     FormControl, 
@@ -24,18 +24,20 @@ import {
   } from "@/components/ui/select"
 
 import { Calendar } from '@/components/ui/calendar'
-import { GetMember, UpdateMemberAccount, UpdateMemberSchema } from '@/types/member';
+import { UpdateMemberAccount, UpdateMemberSchema } from '@/types/member';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form'
 import updateMember from '@/api/member/update.member';
 import { Input } from '@/components/ui/input';
-import { CalendarIcon, Cloudy, Edit, Eye, EyeOff } from 'lucide-react';
+import { CalendarIcon, ChevronLeft, ChevronRight, Cloudy, Edit, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 interface MemberProps {
-  id?: number,
+  id?: number | undefined,
   fname?: string;
   lname?: string,
   gender?: string,
@@ -59,7 +61,7 @@ const EditForm: React.FC<MemberProps> = (
 }
 ) => {
 
-
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [editBtn, setEditBtn] = useState(false);
 
@@ -83,28 +85,56 @@ const EditForm: React.FC<MemberProps> = (
     }
 
     //update  api route
-    const onSubmit = async (data:UpdateMemberAccount) => {
-        console.log(data)
+    const onSubmit = async (data: UpdateMemberAccount) => {
+      if (id) {
         try {
-            // await updateMember(data);
-            alert('update');
+          const confirmed = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to make these changes?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true,
+          });
+  
+          if (confirmed.isConfirmed) {
+            await updateMember(data, id);
+
+            await Swal.fire({
+              title: 'Update Successful!',
+              text: 'You have successfully updated the account details.',
+              icon: 'success',
+            });
+
+            router.refresh();
+            setEditBtn(false);
+          }
         } catch (error) {
-            console.error('Error adding member:', error);
+          console.error('Error updating details:', error);
+          await Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while updating details.',
+            icon: 'error',
+          });
         }
+      }
     };
   
-  const handleClickEditBtn = () => {
-    if(!editBtn){
-      if (window.confirm('Do you want to edit?')) {
-        setEditBtn(!editBtn);
-      }
-    } else {
-      if (window.confirm('Do you want to disable?')) {
-        setEditBtn(!editBtn);
-      }
-    }
-    
-  }
+    const handleClickEditBtn = () => {
+      Swal.fire({
+        title: !editBtn ? 'Do you want to edit?' : 'Do you want to disable?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setEditBtn(!editBtn);
+        }
+      });
+    };
 
 
   return (
@@ -164,7 +194,7 @@ const EditForm: React.FC<MemberProps> = (
                   <FormItem>
                   <FormLabel className='flex gap-1'>Gender</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}  disabled={!editBtn && true}>
-                      <FormControl className='py-6 pl-4 rounded-lg dark:bg-slate-950'>
+                      <FormControl className='py-6 pl-4 rounded-lg'>
                         <SelectTrigger>
                           <SelectValue placeholder=""{...field}/>
                         </SelectTrigger>
@@ -211,14 +241,14 @@ const EditForm: React.FC<MemberProps> = (
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 bg-white dark:bg-slate-950" align="start">
                       <Calendar
-                        className='text-black dark:text-white'
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        captionLayout='dropdown-buttons'
-                        fromYear={1950}
-                        toYear={2024}
-                        initialFocus
+                        startMonth={new Date(1950, 0)}
+                        endMonth={new Date()}
+                        captionLayout='dropdown'
+                        defaultMonth={field.value ? new Date(field.value) : new Date()}
+                        footer={field.value !== new Date() ? field.value.toLocaleDateString() : 'Today'}
                       />
                     </PopoverContent>
                   </Popover>
@@ -309,7 +339,7 @@ const EditForm: React.FC<MemberProps> = (
 
             <div className="flex items-center justify-start gap-2">
                 <span
-                className='flex w-15 h-10 bg-indigo-700 text-white text-center px-2 py-2 rounded-lg hover:cursor-pointer'
+                className='flex w-15 h-10 bg-slate-950 dark:bg-indigo-700 text-white text-center px-2 py-2 rounded-lg hover:cursor-pointer'
                 onClick={handleClickEditBtn}
                 >
                   <Edit/>  Edit
