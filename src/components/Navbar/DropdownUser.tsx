@@ -1,23 +1,22 @@
 'use client'
-
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Avatar, AvatarImage } from '@/components/ui/avartar'
 import { Contact, LogOut, Settings, User, UserCog } from 'lucide-react'
-import { useTheme } from '@/context/ThemeContext';
-import { Label } from '../ui/label'
+import { useAuth } from '@/context/AuthContext'
 
 
-const DropdownUser = () => {
+const DropdownUser = (
+  { userId, usernameFromToken, authToken }:{ userId:any, usernameFromToken:any, authToken:any}
+
+) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [username, setUsername] = useState('')
   const [loggingOut, setLoggingOut] = useState(false); // State to track logout process
 
   const trigger = useRef<any>(null)
   const dropdown = useRef<any>(null)
 
-  const { setColorMode } = useTheme();
-
+  const { logout } = useAuth();
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
@@ -47,13 +46,10 @@ const DropdownUser = () => {
 
  // Handle logout
  const handleLogout = async () => {
-  setLoggingOut(true); // Set logging out state
+  setLoggingOut(true);
   try {
-    // Simulate logout process (replace with actual logout logic)
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate asynchronous operation
-    localStorage.removeItem('isLoggedIn');
-    window.location.reload();
-    setColorMode('light');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    logout();
   } catch (error) {
     console.error('Error during logout:', error);
     // Handle logout error if needed
@@ -72,9 +68,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium capitalize text-black dark:text-white ">
-            {username || 'Administrator'}
+            {usernameFromToken && ( <>Administrator</>)}
           </span>
-          <span className="block text-xs">Admin</span>
+          <span className="block text-xs">{usernameFromToken}</span>
         </span>
       
         <Avatar className='h-10 w-10 items-center justify-center rounded-full border-[0.5px]'>
@@ -116,7 +112,7 @@ const DropdownUser = () => {
           </li>
           <li>
             <Link
-              href={`/settings/account_details/1000232300441?id=${0}`}
+              href={`/settings/account_details/${authToken}?id=${userId}`}
               className="flex items-center gap-3.5 text-sm duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <UserCog />

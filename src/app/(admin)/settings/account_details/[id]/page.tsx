@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import EditForm from './component/EditForm';
-import { fetchMember } from '@/api/member/fetch.member';
+import { fetchMember } from '@/actions/member/fetch.member';
 import { GetMember } from '@/types/member';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';

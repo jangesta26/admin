@@ -43,7 +43,7 @@ const DatePickerBtn =  ({ field }: DateItemProps) => {
         className='bg-white rounded p-0 py-2 px-2 dark:bg-slate-950'
         mode="single"
         onSelect={field.onChange}
-        captionLayout='dropdown-buttons'
+        captionLayout='dropdown'
         fromYear={1990}
         toYear={2024}                          
         disabled={(date) =>

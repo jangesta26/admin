@@ -14,7 +14,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
-  const { setColorMode } = useTheme(); // Destructure setTheme from useTheme
+  const { setColorMode } = useTheme();
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -25,13 +25,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     router.refresh();
     localStorage.setItem('isLoggedIn', 'true');
     setIsAuthenticated(true);
-    router.push('/dashboard');
   };
 
   const logout = () => {
+    localStorage.removeItem('authToken');
     localStorage.removeItem('isLoggedIn');
     setIsAuthenticated(false);
-    setColorMode('light'); // Reset theme to light mode
+    // window.location.reload();
+    setColorMode('light'); 
     router.push('/auth/signin');
   };
 

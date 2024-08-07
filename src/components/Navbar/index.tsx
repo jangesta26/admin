@@ -4,9 +4,26 @@ import DropdownMessage from './DropdownMessage'
 import DropdownUser from './DropdownUser'
 import DarkModeSwitcher from './DarkModeSwitcher'
 import HamburgerButton from './HamburgerButton'
+import { jwtDecode } from "jwt-decode";
 
 
 const Navbar = ( props:any) => {
+
+  let userId = '';
+  let username = '';
+
+  if (props.authToken) {
+    try {
+      const decoded: any = jwtDecode(props.authToken);
+      userId = decoded.userId || '';
+      username = decoded.username || '';
+    } catch (error) {
+      console.error('Failed to decode token', error);
+    }
+  }
+
+  console.log("fromt token::: "+userId+"-----"+username)
+
 
   return (
     <div className='sticky w-full bg-zinc-100 border-b-zinc-200 py-3 lg:pr-10 shadow z-999 top-0 dark:bg-slate-800'>
@@ -35,7 +52,7 @@ const Navbar = ( props:any) => {
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser />
+          <DropdownUser userId={userId} usernameFromToken={username} authToken={props.authToken}/>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import TableMembers from '@/components/Tables/TableMembers';
 import Loader from '@/components/Common/Loader';
-import { fetchMembers } from '@/api/member/fetch.member';
+import { fetchMembers } from '@/actions/member/fetch.member';
 import Breadcrumbs from './component/Breadcrumbs';
 import AddButton from '@/components/Button/AddButton';
 import SearchInput from '@/components/Input/SearchInput';

@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/Maps/MapOne.jsx", "src/app/(admin)/settings/layout"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/Maps/MapOne.jsx", "src/app/(admin)/settings/layout", "src/components/Modal/ImageCropper.jsx"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { ArrowDownAZ, ArrowDownUp, ArrowUpDown, ArrowUpZA, Edit, Trash2, UserCircle } from 'lucide-react';
+import { ArrowDownUp, ArrowUpDown, ArrowUpZA, Edit, Trash2, UserCircle } from 'lucide-react';
 import Link from 'next/link';
 import { GetMember } from '@/types/member';
 import { Label } from '../ui/label';
@@ -90,10 +90,9 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
 
         {
         dataMember.length > 0 ? (
-          dataMember?.map((data, key) => (
-           
+          dataMember?.map((data, key) => {
+           return(
           <div
-        
             className={`
             xl:grid xl:grid-cols-4
             lg:grid lg:grid-cols-4 
@@ -110,14 +109,14 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
             hover:bg-slate-100
             dark:hover:bg-meta-4
             ${
-              key === dataMember.length - 0
+              key === dataMember.length - 1
                 ? ''
                 : 'border-t border-stroke dark:border-strokedark'
             }`}
-            key={key}
+            key={data.id}
           >
 
-            <Link href={`/settings/account_details/${data.id}?id=${data.id}`} 
+            <Link href={`/settings/account_details/${data.fname.toLowerCase()}.${data.lname.toLowerCase()}?id=${data.id}`} 
             className='
               flex items-center justify-center
               xl:items-center xl:justify-start
@@ -172,9 +171,10 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
 
             </div>
           </div>
-          ))) : (
+          )})) : (
             <p className='text-center'>No members found matching the query.</p>
-          )}
+        )
+        }
       </div>
     </>
   );

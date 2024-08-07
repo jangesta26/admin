@@ -27,9 +27,9 @@ import { Calendar } from '@/components/ui/calendar'
 import { UpdateMemberAccount, UpdateMemberSchema } from '@/types/member';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form'
-import updateMember from '@/api/member/update.member';
+import updateMember from '@/actions/member/update.member';
 import { Input } from '@/components/ui/input';
-import { CalendarIcon, ChevronLeft, ChevronRight, Cloudy, Edit, Eye, EyeOff } from 'lucide-react';
+import { CalendarIcon, Cloudy, Edit, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -79,12 +79,10 @@ const EditForm: React.FC<MemberProps> = (
       })
 
 
-    // to detemine password
     const handleChange = () => {
         setShowPassword(!showPassword);
     }
 
-    //update  api route
     const onSubmit = async (data: UpdateMemberAccount) => {
       if (id) {
         try {
@@ -99,6 +97,7 @@ const EditForm: React.FC<MemberProps> = (
           });
   
           if (confirmed.isConfirmed) {
+            
             await updateMember(data, id);
 
             await Swal.fire({
@@ -131,7 +130,7 @@ const EditForm: React.FC<MemberProps> = (
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          setEditBtn(!editBtn);
+          setEditBtn(true);
         }
       });
     };
@@ -314,15 +313,20 @@ const EditForm: React.FC<MemberProps> = (
                     <FormLabel className='flex gap-1'>Password </FormLabel>
                     <FormControl>
                       <Input
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword  ? 'text' : 'password'}
                         placeholder="" {...field } 
                         className='py-6 pl-4 pr-12 rounded-lg' 
                         autoComplete="current-password" 
                         disabled={!editBtn && true}
                         />
                     </FormControl>
-                    <FormControl onClick={handleChange} className='cursor-pointer' >
-                    <div className='absolute left-full mr-4 -translate-y-11 -translate-x-11'>
+                    <FormControl 
+                    onClick={handleChange}
+                    className={`cursor-pointer hover:text-primary/90`}>
+                    <div 
+                    className={`absolute inset-y-10 right-0 flex items-center pr-3 ${!editBtn ? 'hidden' : ''}`}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
                       { !showPassword 
                         ?<EyeOff/>
                         :<Eye/>
@@ -337,19 +341,24 @@ const EditForm: React.FC<MemberProps> = (
               />
             </div>
 
-            <div className="flex items-center justify-start gap-2">
-                <span
-                className='flex w-15 h-10 bg-slate-950 dark:bg-indigo-700 text-white text-center px-2 py-2 rounded-lg hover:cursor-pointer'
-                onClick={handleClickEditBtn}
-                >
-                  <Edit/>  Edit
-                </span>
-                <Button 
+              {
+                !editBtn 
+                ? (
+                    <span
+                    className='flex w-15 h-10 bg-slate-950 dark:bg-indigo-700 text-white text-center px-2 py-2 rounded-lg hover:cursor-pointer'
+                    onClick={handleClickEditBtn}
+                    >
+                      <Edit/>  Edit
+                    </span>
+                  ) 
+                : (
+                  <Button 
                 
-                className={`gap-1 text-sm ${!editBtn ? 'hidden' :'' }`}>
-                  <Cloudy/> Save Changes
-                </Button>
-            </div>
+                  className={`gap-1 text-sm`}>
+                    <Cloudy/> Save Changes
+                  </Button>
+                  )
+              }
         </form>
     </Form>
   )

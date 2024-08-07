@@ -21,6 +21,6 @@ export const SignInUserSchema = z.object({
   password: z.string().min(5, { message: "Password must be at least 5 characters long" }),
 });
 
+const getSignInUser= SignInUserSchema.brand<'GetSignInUser'>()
 
-
-export type SignInUser = z.infer<typeof SignInUserSchema>;
+export type GetSignInUser = z.infer<typeof getSignInUser>;

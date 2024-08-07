@@ -9,7 +9,9 @@ import {
   AlertTitle,
 } from "@/components/ui/alert"
 
-export function AlertFailed({ duration = 2000 }) {
+export function AlertFailed(
+  { duration, title, description} : {duration:number, title:string, description:string}
+) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,9 +29,9 @@ export function AlertFailed({ duration = 2000 }) {
     <div id="alert-error" className={`fixed top-0 right-0 pt-2 px-2  z-9999 ${style.alertError}`}>
       <Alert variant="destructive" className="border-[#F87171] bg-[#F87171]">
         <AlertCircle className="h-10 w-10 text-[#8a3232] " />
-        <AlertTitle className="text-[#8a3232] ml-6">Error</AlertTitle>
+        <AlertTitle className="text-[#8a3232] ml-6">{title}</AlertTitle>
         <AlertDescription className="text-[#8a3232] ml-6">
-          Incorrect username or password. Please try again!
+          {description}
         </AlertDescription>
       </Alert>
     </div>

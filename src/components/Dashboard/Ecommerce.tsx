@@ -7,7 +7,7 @@ import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 // import MapOne from "../Maps/MapOne";
 import { Eye as EyeIcon, ShoppingBag, ShoppingCart, Users } from 'lucide-react';
-import statusData from '../../api/dashboard/cardDataStatus'
+import statusData from '../../actions/dashboard/cardDataStatus'
 
 
 

@@ -1,0 +1,32 @@
+/* styles/ImageProfile.module.css */
+
+.profileImageContainer {
+  position: relative;
+  width: 100%; /* Make container responsive */
+  max-width: 150px; /* Max width to control size */
+  aspect-ratio: 1 / 1; /* Ensure it stays square */
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f3f4f6; /* Background color to handle empty areas */
+  border: 1px solid #ffffff; /* Smooth border color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional smooth shadow */
+}
+
+/* Responsive adjustments */
+@media (min-width: 640px) {
+  .profileImageContainer {
+    max-width: 120px; /* Adjust size for small screens */
+  }
+}
+
+@media (min-width: 768px) {
+  .profileImageContainer {
+    max-width: 140px; /* Adjust size for medium screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .profileImageContainer {
+    max-width: 160px; /* Adjust size for larger screens */
+  }
+}

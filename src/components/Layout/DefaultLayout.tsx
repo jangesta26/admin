@@ -8,6 +8,7 @@ export default function DefaultLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const authToken = localStorage.getItem('authToken') || undefined;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
@@ -21,7 +22,7 @@ export default function DefaultLayout({
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Start ===== --> */}
           {/* <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
-            <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+            <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} authToken={authToken}/>
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}

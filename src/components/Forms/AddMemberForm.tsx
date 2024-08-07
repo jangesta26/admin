@@ -31,12 +31,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Calendar } from '../ui/calendar'
-import createMember from '@/api/member/create.member'
+import createMember from '@/actions/member/create.member'
+import { useRouter } from 'next/navigation'
 
 
 const AddMemberForm = () => {
 
-    const [errorSubmit, setErrorSubmit] = useState(false);
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
 
 
@@ -64,6 +65,7 @@ const AddMemberForm = () => {
     const onSubmit = async (data:AddMemberAccount) => {
       try {
           await createMember(data);
+          router.push('/member/list-of-members')
       } catch (error) {
           console.error('Error adding member:', error);
       }

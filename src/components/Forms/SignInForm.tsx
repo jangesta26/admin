@@ -9,13 +9,12 @@ import { Checkbox } from '../ui/checkbox'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { SignInUserSchema, SignInUser } from '@/types/user';
+import { GetSignInUser, SignInUserSchema } from '@/types/user';
 import { AlertFailed } from '@/components/Alerts/AlertFailed';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import swal from 'sweetalert';
 import { Input } from '../ui/input';
-
+import createSignInAuth from '@/actions/signin/create.auth';
 
 const SignInForm: React.FC = () => {
 
@@ -23,7 +22,7 @@ const SignInForm: React.FC = () => {
   const [errorLogin, setErrorLogin] = useState(false);
   const [showPassword, setShowPassword] = useState(false)
 
-  const form = useForm<SignInUser>({
+  const form = useForm<GetSignInUser>({
     resolver: zodResolver(SignInUserSchema),
     defaultValues: {
       username: "",
@@ -31,39 +30,34 @@ const SignInForm: React.FC = () => {
     },
   })
   
-  const onSubmit = async (data:any) => {
+  const onSubmit = async (formData: GetSignInUser) => {
     try {
-      const {username, password } = data;
-       // Check if username and password match
-       if (username === 'admin' && password === 'admin') {
-
-        swal({
-          title: "Login Successful!",
-          text: "You have successfully logged in.",
-          icon: "success",
-        });
-
-        login();
-      } else {
+    
+      const result =  await createSignInAuth('/auth/login', formData);
+      console.log(result)
+      if (!result) {
         setErrorLogin(true);
         setTimeout(() => setErrorLogin(false), 4000); 
+      } else {
+        setErrorLogin(false);
+        login();
       }
-
     } catch (error) {
+      console.error("Failed data auth:", error);
       setErrorLogin(true);
       setTimeout(() => setErrorLogin(false), 4000);
     }
   };
 
-  const handleChange = () => {
-    setShowPassword(!showPassword)
-  }
-
   return (
     <>
       {
         errorLogin && (
-          <AlertFailed duration={2000} />
+          <AlertFailed 
+            duration = {2000}
+            title="Error"
+            description="Incorrect username or password. Please try again!" 
+          />
         )
       }
       {/* Your login attempt timed out. Login will start from the beginning. */}
@@ -117,7 +111,7 @@ const SignInForm: React.FC = () => {
           
           <div className="flex mt-4 items-center justify-between gap-6">
               <div className='flex items-center space-x-1 space-y-0.5'>
-                <Checkbox id="terms" onClick={handleChange}/>
+                <Checkbox id="terms" checked={showPassword} onClick={() => setShowPassword(prev => !prev)}/>
                 <Label htmlFor="terms">Show Password</Label>
               </div>
 
@@ -142,3 +136,4 @@ const SignInForm: React.FC = () => {
 }
 
 export default SignInForm
+

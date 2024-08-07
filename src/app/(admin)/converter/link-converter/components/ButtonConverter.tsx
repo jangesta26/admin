@@ -1,5 +1,5 @@
 import React from 'react';
-import createConverter from '@/api/converter/create.converter';
+import createConverter from '@/actions/converter/create.converter';
 import { Button } from '@/components/ui/button';
 
 interface ButtonConverterProps {

@@ -7,17 +7,26 @@ const page = () => {
     const router = useRouter();
     const isAuthenticated = useAuth();
     useEffect(() => {
-        // Check authentication status or any other condition
-        // Redirect based on the condition
         if (!isAuthenticated) { 
-          router.push('/auth/signin'); // Redirect to sign-in page if not authenticated
+          router.push('/auth/signin'); 
           router.refresh();
         } else {
-          router.push('/dashboard'); // Redirect to dashboard if authenticated
+          router.push('/dashboard'); 
         }
       }, [isAuthenticated, router]);
     
-      return null; // Render nothing initially, redirect will happen in useEffect
+      return null; 
 }
 
 export default page
+// import getMe from "@/util/get-me";
+
+// export default async function Home() {
+//   const me = await getMe();
+//   console.log(me);
+//   return (
+//     <div>
+//     {me}
+//     </div>
+//   )
+// }

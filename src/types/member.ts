@@ -98,6 +98,19 @@ const updateMemberSchema = UpdateMemberSchema.brand<'UpdateMemberAccount'>()
 
 export type UpdateMemberAccount = z.infer<typeof updateMemberSchema>;
 
+// images validation
+
+export const getImageSchema = z.object({
+  id:z.number(),
+  img: z.string(),
+  status: z.number(),
+  createdAt: z.string(),
+});
+
+const getImage= getImageSchema.brand<'GetImage'>()
+
+export type GetImage = z.infer<typeof getImage>;
+
 
 
 

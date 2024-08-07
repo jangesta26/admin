@@ -46,6 +46,7 @@ export default async function createMember(data:AddMemberAccount) {
         text: 'You have successfully added a new member.',
         icon: 'success',
       });
+      
       return true;
   
     } catch (error) {

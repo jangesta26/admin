@@ -48,6 +48,7 @@ export async function fetchMembers({
   }
 }
 
+
 export async function fetchMember({
   id
 }: {id:string}): Promise<any> {
@@ -55,9 +56,8 @@ export async function fetchMember({
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`;
     const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+      next: {
+        tags: ['member'],
       },
     });
 

@@ -4,7 +4,6 @@ import useIdleTimer from "@/lib/useIdleTimer";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 import AlertSessionExpired from '@/components/Alerts/AlertSessionExpired';
-
 import { useAuth } from '@/context/AuthContext';
 import DefaultLayout from '@/components/Layout/DefaultLayout';
 
@@ -19,10 +18,9 @@ interface AdminLayoutProps {
 
     const [showSessionExpirePrompt, setShowSessionExpirePrompt] = useState(false);
 
-      // Handle auto logout after 5 minutes (300000 milliseconds) of inactivity
     const handleLogout = useCallback(() => {
         localStorage.removeItem('isLoggedIn');
-        router.push('/auth/signin'); // Redirect to login page
+        router.push('/auth/signin'); 
         window.location.reload();
     }, [router]);
 
@@ -34,17 +32,16 @@ interface AdminLayoutProps {
         setShowSessionExpirePrompt(false);
     }, []);
 
-    // useIdleTimer(handleLogout, 300000, handleWarning, 60000);
+    useIdleTimer(handleLogout, 300000, handleWarning, 60000);
   
     useEffect(() => {
-      // Check if user is logged in, if not redirect to login page
       if (!isAuthenticated) {
         router.push('/auth/signin');
       }
     }, [isAuthenticated, router]);
 
     if (!isAuthenticated) {
-        return null; // or a loading spinner, or redirect, etc.
+        return null; 
       }
 
   return (
