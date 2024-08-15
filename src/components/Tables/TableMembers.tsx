@@ -2,17 +2,18 @@
 import React, { useState } from 'react';
 import { ArrowDownUp, ArrowUpDown, ArrowUpZA, Edit, Trash2, UserCircle } from 'lucide-react';
 import Link from 'next/link';
-import { GetMember } from '@/types/member';
+import { GetMember, GetMemberAndImageUrl } from '@/types/member';
 import { Label } from '../ui/label';
 import { Avatar } from '../ui/avartar';
 import { Button } from '../ui/button';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce'
 import TableHeadItem from '@/lib/dataTable';
+import Image from 'next/image';
 
 
 interface TableMemberItemProps {
-  dataMember: GetMember[];
+  dataMember: GetMemberAndImageUrl[];
   sort: (term: string) => void;
 }
 
@@ -109,7 +110,7 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
             hover:bg-slate-100
             dark:hover:bg-meta-4
             ${
-              key === dataMember.length - 1
+              key === dataMember.length
                 ? ''
                 : 'border-t border-stroke dark:border-strokedark'
             }`}
@@ -125,8 +126,20 @@ const TableMembers: React.FC<TableMemberItemProps> = ({
               gap-3 py-2.5 xl:p-2 cursor-pointer
             '>
                 <Avatar className=" flex h-10 w-10 items-center justify-center rounded-full border-[0.5px]">
-                  {/* <Image src={} alt="Brand" width={48} height={48} /> */}
-                  <Label> {data.fname.charAt(0).toUpperCase()} {data.lname.charAt(0).toUpperCase()}</Label>
+                {
+                      data.images[0]?.imageUrl ? (
+                        <Image 
+                          src={data.images[0]?.imageUrl} 
+                          alt={`Profile ${data.fname}`} 
+                          width={48} 
+                          height={48} 
+                          unoptimized
+                        />
+                      ) : (
+                        <Label>{data.fname.charAt(0).toUpperCase()} {data.lname.charAt(0).toUpperCase()}</Label>
+                      )
+                    }
+                 
                 </Avatar>
                 <p className="hidden text-black dark:text-white sm:block capitalize text-balance hover:underline">
                   {data.fname} {data.lname}

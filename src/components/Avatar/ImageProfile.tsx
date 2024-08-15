@@ -12,6 +12,7 @@ const ImageProfile: React.FC<IdProps> = ({ avatarUrl }) => {
         alt="profile"
         layout="fill"
         objectFit="cover"
+        unoptimized
       />
     </div>
     </>

@@ -1,27 +1,32 @@
 'use client'
-import uploadImage from '@/actions/member/upload.image';
+import createUploadImage from '@/actions/upload/create.upload';
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import swal from "sweetalert";
 
 interface ImageProfileSaveBtnProps {
-  avatarUrl: string;
-  accountId: string | null;
+  formData?: FormData;
 }
 
-const ImageProfileSaveBtn: React.FC<ImageProfileSaveBtnProps> = ({ avatarUrl, accountId }) => {
-  
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission
+const ImageProfileSaveBtn: React.FC<ImageProfileSaveBtnProps> = ({ formData }) => {
 
-    if (!accountId) {
-      console.error('No user ID provided');
-      return;
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    try{
+      const response = await createUploadImage('/upload/image-profile', formData);
+    if(response){
+      swal({
+        title: 'Image Uploaded Successful!',
+        text: 'You have successfully login.',
+        icon: 'success',
+      });
+      router.refresh();
     }
-
-    try {
-      await uploadImage(avatarUrl, accountId);
     } catch (error) {
-      console.error('Error adding image:', error);
+      console.error('Error uploading image:', error);
     }
+    
   };
 
   return (

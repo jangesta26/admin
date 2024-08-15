@@ -12,9 +12,11 @@ const MIN_DIMENSION = 150;
 interface ImageCropperProps {
   updateAvatar: (dataUrl: string) => void;
   closeModal: () => void;
+  handleImageFormData: (formData: FormData) => void;
+  paramsId: any;
 }
 
-const ImageCropper: React.FC<ImageCropperProps> = ({ updateAvatar, closeModal }) => {
+const ImageCropper: React.FC<ImageCropperProps> = ({ updateAvatar, closeModal, paramsId, handleImageFormData }) => {
 
     const imgRef = useRef<HTMLImageElement | null>(null);
     const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -27,22 +29,21 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ updateAvatar, closeModal })
         if(!file) return;
 
         const reader = new FileReader();
-        reader.addEventListener("load", ()=> {
-          const imageElement = new Image();
-          const imageUrl = reader.result?.toString() || "";
-          imageElement.src = imageUrl;
+        reader.onload = () => {
+            const imageElement = new Image();
+            imageElement.src = reader.result as string;
 
-          imageElement.addEventListener("load", (e:any) => {
-            if(error) setError('');
-            const { naturalWidth,  naturalHeight } = e.currentTarget;
-            if ( naturalWidth < MIN_DIMENSION || naturalHeight < MIN_DIMENSION ) {
-              setError('Image must be at least 150 x 150 pixels.');
-              return setImgSrc('');
+            imageElement.onload = () => {
+                const { naturalWidth, naturalHeight } = imageElement;
+                if (naturalWidth < MIN_DIMENSION || naturalHeight < MIN_DIMENSION) {
+                    setError('Image must be at least 150 x 150 pixels.');
+                    setImgSrc('');
+                    return;
+                }
+                setImgSrc(reader.result as string);
+                setError('');
             }
-          })
-
-          setImgSrc(imageUrl);
-        });
+        };
         reader.readAsDataURL(file);
     };
 
@@ -62,6 +63,34 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ updateAvatar, closeModal })
     const centeredCrop:any = centerCrop(crop, width, height)
     setCrop(centeredCrop);
 };
+
+  const handleCrop = async () => {
+    if (imgRef.current && previewCanvasRef.current && crop) {
+      setCanvasPreview({
+        image: imgRef.current,
+        canvas: previewCanvasRef.current,
+        crop: convertToPixelCrop(crop, imgRef.current.width, imgRef.current.height),
+      });
+
+      previewCanvasRef.current.toBlob(async (blob) => {
+        if (blob) {
+ 
+          const formData = new FormData();
+          formData.append('file', blob, 'cropped-image.png');
+          formData.append('accountId', paramsId);
+
+          const dataUrl = previewCanvasRef.current?.toDataURL();
+          updateAvatar(dataUrl || '')
+          closeModal();
+          handleImageFormData(formData)
+
+        }
+      }, 'image/png');
+    } else {
+      console.error('Image reference or crop is missing');
+      setError('Image reference or crop is missing');
+    }
+  };
 
   return (
     <>
@@ -85,7 +114,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ updateAvatar, closeModal })
                     aspect={ASPECT_RATIO}
                     minWidth={MIN_DIMENSION}
                     onChange={
-                      (percentCrop:any) => setCrop(percentCrop)
+                      (percentCrop: any) => setCrop(percentCrop)
                     } 
                 >
                     <img 
@@ -101,22 +130,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ updateAvatar, closeModal })
                 <Button
                 variant={null}
                 className='text-white font-mono text-xs py-2 px-4 rounded-2xl mt-4 bg-primary/90 hover:bg-primary'
-                onClick={() => {
-                  if (imgRef.current && previewCanvasRef.current && crop) {
-                    setCanvasPreview({
-                      image: imgRef.current,
-                      canvas: previewCanvasRef.current,
-                      crop: convertToPixelCrop(
-                        crop,
-                        imgRef.current.width, 
-                        imgRef.current.height
-                      )
-                    });
-                
-                  const dataUrl = previewCanvasRef.current?.toDataURL();
-                  updateAvatar(dataUrl || '');
-                  if (closeModal) closeModal();
-                }}}
+                onClick={handleCrop}
               >
                   Crop Image
                 </Button>
@@ -140,3 +154,6 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ updateAvatar, closeModal })
 }
 
 export default ImageCropper
+// const dataUrl = previewCanvasRef.current?.toDataURL();
+// updateAvatar(dataUrl || '')
+// if (closeModal) closeModal();

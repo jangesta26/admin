@@ -11,18 +11,22 @@ const Navbar = ( props:any) => {
 
   let userId = '';
   let username = '';
+  let fname ='';
+  let lname ='';
+  let imageUrl ='';
 
   if (props.authToken) {
     try {
       const decoded: any = jwtDecode(props.authToken);
       userId = decoded.userId || '';
+      fname = decoded.fname || '';
+      lname = decoded.lname || '';
       username = decoded.username || '';
+      imageUrl = decoded.imageUrl || '';
     } catch (error) {
       console.error('Failed to decode token', error);
     }
   }
-
-  console.log("fromt token::: "+userId+"-----"+username)
 
 
   return (
@@ -52,7 +56,12 @@ const Navbar = ( props:any) => {
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser userId={userId} usernameFromToken={username} authToken={props.authToken}/>
+          <DropdownUser 
+          userId={userId} 
+          usernameFromToken={username} 
+          fname={fname} 
+          lname={lname} 
+          imageUrl={ imageUrl }/>
         </div>
       </div>
     </div>

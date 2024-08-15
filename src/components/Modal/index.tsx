@@ -5,9 +5,11 @@ import ImageCropper from './ImageCropper'
 interface ImageModalProps {
   updateAvatar: (dataUrl: string) => void;
   closeModal: () => void;
+  handleImageFormData: (formData: FormData) => void;
+  paramsId:any;
 }
 
-const ImageModal: React.FC<ImageModalProps> = ({ updateAvatar, closeModal }) => {
+const ImageModal: React.FC<ImageModalProps> = ({ updateAvatar, closeModal, paramsId, handleImageFormData }) => {
   return (
     <div 
     className='relative z-9999'
@@ -31,6 +33,8 @@ const ImageModal: React.FC<ImageModalProps> = ({ updateAvatar, closeModal }) => 
                       <ImageCropper 
                       updateAvatar={updateAvatar}
                       closeModal={closeModal}
+                      handleImageFormData={handleImageFormData}
+                      paramsId={paramsId}
                       />
                   </div>
               </div>

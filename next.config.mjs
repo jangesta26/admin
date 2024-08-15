@@ -1,5 +1,19 @@
-/** @type {import('next').NextConfig} */
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
+// Export the configuration
 const nextConfig = {
-    basePath: process.env.BASE_PATH,
+    basePath: process.env.BASE_PATH || '',
+    env: {
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+        JWT_SECRET: process.env.JWT_SECRET,
+    },
+    images: {
+        unoptimized: true,
+        domains: ['res.cloudinary.com'], // Add your image domains here
+    },
 };
-export default nextConfig;
+
+// Use bundle analyzer if ANALYZE is set to true
+export default withBundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+})(nextConfig);

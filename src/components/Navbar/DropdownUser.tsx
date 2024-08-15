@@ -4,10 +4,25 @@ import Link from 'next/link'
 import { Avatar, AvatarImage } from '@/components/ui/avartar'
 import { Contact, LogOut, Settings, User, UserCog } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
+import { Label } from '../ui/label'
 
 
 const DropdownUser = (
-  { userId, usernameFromToken, authToken }:{ userId:any, usernameFromToken:any, authToken:any}
+  { 
+    userId, 
+    usernameFromToken, 
+    fname, 
+    lname,
+    imageUrl
+  }
+    :
+  {
+    userId:any, 
+    usernameFromToken:string, 
+    fname:string, 
+    lname:string,
+    imageUrl?:string,
+  }
 
 ) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -74,8 +89,11 @@ const DropdownUser = (
         </span>
       
         <Avatar className='h-10 w-10 items-center justify-center rounded-full border-[0.5px]'>
-          <AvatarImage src="/images/user/user-01.png"/>
-          {/* <Label>AD</Label> */}
+        {imageUrl ? (
+            <AvatarImage src={imageUrl} />
+          ) : (
+            <Label>{fname.toUpperCase()[0]}.{lname.toUpperCase()[0]}</Label>
+          )}
         </Avatar>
 
         <Settings className={`transition-all duration-200 ease-out ${
@@ -112,7 +130,7 @@ const DropdownUser = (
           </li>
           <li>
             <Link
-              href={`/settings/account_details/${authToken}?id=${userId}`}
+              href={`/settings/account_details/${fname.toLocaleLowerCase()}.${lname.toLocaleLowerCase()}?id=${userId}`}
               className="flex items-center gap-3.5 text-sm duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <UserCog />

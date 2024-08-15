@@ -4,11 +4,9 @@ import { revalidateTag } from "next/cache";
 import swal from 'sweetalert';
 
 export default async function createMember(data:AddMemberAccount) {
+
+  console.log("Requested::::"+data)
     try {
-      const status = 1;
-      const currentDate = new Date();
-      const options = { timeZone: 'Asia/Manila' };
-      const philippineTime = currentDate.toLocaleString('en-US', options);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts`, {
         method: 'POST',
         headers: {
@@ -16,8 +14,7 @@ export default async function createMember(data:AddMemberAccount) {
         },
         body: JSON.stringify({
           ...data,
-          status,
-          philippineTime,
+          status: 1,
         }),
       });
 

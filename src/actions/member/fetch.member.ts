@@ -1,5 +1,5 @@
 'server only'
-import { GetApiResponse, GetMember } from "@/types/member"
+import { GetApiResponse, GetMember, GetMemberAndImageUrl } from "@/types/member"
 import queryString from 'query-string';
 
 interface GetMembersParams {
@@ -14,7 +14,7 @@ export async function fetchMembers({
   sort,
   limitPage,
   page,
-}: GetMembersParams): Promise<{ members:GetMember[], meta: GetApiResponse['meta'] }> {
+}: GetMembersParams): Promise<{ members:GetMemberAndImageUrl[], meta: GetApiResponse['meta'] }> {
   try {
 
     const queryParams = {
@@ -51,7 +51,7 @@ export async function fetchMembers({
 
 export async function fetchMember({
   id
-}: {id:string}): Promise<any> {
+}: {id:string}): Promise<GetMemberAndImageUrl> {
   try {
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`;
@@ -65,7 +65,7 @@ export async function fetchMember({
       throw new Error(`Failed to fetch data: ${response.statusText}`);
     }
 
-    const apiResponse = await response.json() as any;
+    const apiResponse = await response.json() as GetMemberAndImageUrl;
 
     return apiResponse;
 

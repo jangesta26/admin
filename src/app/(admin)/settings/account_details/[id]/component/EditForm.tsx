@@ -41,7 +41,7 @@ interface MemberProps {
   fname?: string;
   lname?: string,
   gender?: string,
-  dob?: Date,
+  dob?: Date | null,
   email?: string,
   username?: string,
   password?: string, 
@@ -98,7 +98,7 @@ const EditForm: React.FC<MemberProps> = (
   
           if (confirmed.isConfirmed) {
             
-            await updateMember(data, id);
+            await updateMember('accounts',data, id);
 
             await Swal.fire({
               title: 'Update Successful!',
@@ -247,7 +247,7 @@ const EditForm: React.FC<MemberProps> = (
                         endMonth={new Date()}
                         captionLayout='dropdown'
                         defaultMonth={field.value ? new Date(field.value) : new Date()}
-                        footer={field.value !== new Date() ? field.value.toLocaleDateString() : 'Today'}
+                        footer={field.value ? (new Date(field.value)).toLocaleDateString() : 'Today'}
                       />
                     </PopoverContent>
                   </Popover>

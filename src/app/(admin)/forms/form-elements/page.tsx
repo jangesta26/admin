@@ -1,7 +1,7 @@
 import React from "react";
 import FormElements from "@/components/FormElements";
 import { Metadata } from "next";
-import DefaultLayout from "@/components/Layout/DefaultLayout";
+
 
 export const metadata: Metadata = {
   title: "Admin | Elements",
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 const FormElementsPage = () => {
   return (
-    <DefaultLayout>
+    <>
       <FormElements />
-    </DefaultLayout>
+    </>
   );
 };
 

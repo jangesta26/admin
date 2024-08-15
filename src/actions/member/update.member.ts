@@ -1,14 +1,14 @@
 'use server';
 import { UpdateMemberAccount } from '@/types/member';
 
-export default async function updateMember(data: UpdateMemberAccount, id: number): Promise<boolean> {
+export default async function updateMember(path:string, data: UpdateMemberAccount, id: number): Promise<boolean> {
   try {
     const status = 1;
     const currentDate = new Date();
     const options = { timeZone: 'Asia/Manila' };
     const philippineTime = currentDate.toLocaleString('en-US', options);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${path}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -8,12 +8,12 @@ import AddButton from '@/components/Button/AddButton';
 import SearchInput from '@/components/Input/SearchInput';
 import Paginate from '@/components/Pagination/Paginate';
 import { Label } from '@/components/ui/label';
-import { GetMember } from '@/types/member';
+import { GetMemberAndImageUrl } from '@/types/member';
 import ItemPerPage from '@/components/Dropdowns/ItemPerPage';
 
 const Members = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [members, setMembers] = useState<GetMember[]>([]);
+  const [members, setMembers] = useState<GetMemberAndImageUrl[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -30,7 +30,7 @@ const Members = () => {
         setTotal(meta.totalItems);
         setTotalPage(meta.totalPages);
         setCurrentPage(meta.currentPage);
-        setLoading(false);
+        setTimeout(() => setLoading(false), 400);
       } catch (error) {
         console.error('Error fetching data:', error);
         setLoading(false);

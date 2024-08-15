@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { getImageUrlSchema } from './upload';
 
 const onlyAlphabetic = (value: string) => {
     const regex = /^[A-Za-zñÑ\s]*$/;
@@ -98,18 +99,24 @@ const updateMemberSchema = UpdateMemberSchema.brand<'UpdateMemberAccount'>()
 
 export type UpdateMemberAccount = z.infer<typeof updateMemberSchema>;
 
-// images validation
 
-export const getImageSchema = z.object({
+export const getMemberAndImageUrlSchema = z.object({
   id:z.number(),
-  img: z.string(),
+  fname: z.string(),
+  lname: z.string(),
+  gender: z.string(),
+  dob: z.date(),
+  email: z.string(),
+  username: z.string(),
+  password: z.string(),
   status: z.number(),
   createdAt: z.string(),
+  images: z.array(getImageUrlSchema),
 });
 
-const getImage= getImageSchema.brand<'GetImage'>()
+const getMemberAndImageUrl= getMemberAndImageUrlSchema.brand<'GetMemberAndImageUrl'>()
 
-export type GetImage = z.infer<typeof getImage>;
+export type GetMemberAndImageUrl = z.infer<typeof getMemberAndImageUrl>;
 
 
 

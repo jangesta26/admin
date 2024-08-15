@@ -14,7 +14,7 @@ const ItemPerPage: React.FC<SetLimitPageProps> = ({
     onChangePageLimit
 }) => {
     const item = [
-        { id:1, limit:1 }, 
+        { id:1, limit:10 }, 
         { id:2, limit:25 }, 
         { id:3, limit:50 }, 
         { id:4, limit:75 }, 

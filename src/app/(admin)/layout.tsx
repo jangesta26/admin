@@ -14,13 +14,12 @@ interface AdminLayoutProps {
   const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
 
     const router = useRouter();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
     const [showSessionExpirePrompt, setShowSessionExpirePrompt] = useState(false);
 
     const handleLogout = useCallback(() => {
-        localStorage.removeItem('isLoggedIn');
-        router.push('/auth/signin'); 
+        logout();
         window.location.reload();
     }, [router]);
 
@@ -32,7 +31,7 @@ interface AdminLayoutProps {
         setShowSessionExpirePrompt(false);
     }, []);
 
-    useIdleTimer(handleLogout, 300000, handleWarning, 60000);
+    useIdleTimer(handleLogout, 500000, handleWarning, 100000);
   
     useEffect(() => {
       if (!isAuthenticated) {
